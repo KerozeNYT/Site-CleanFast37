@@ -1,0 +1,121 @@
+/* Clean Fast 37 — design tokens
+   Source unique des couleurs, typographies et espacements.
+   Utilisé par le site (site.css) et par la planche de style (styletile.html). */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("../fonts/archivo-latin-wdth-normal.woff2") format("woff2-variations"),
+       url("../fonts/archivo-latin-wdth-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("../fonts/instrument-serif-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("../fonts/instrument-serif-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Palette — neutres dominants, un seul accent (« Glacier ») facile à recaler sur le logo officiel */
+  --ink: #0b0e10;        /* scène, fond le plus sombre */
+  --carbon: #12171a;     /* surfaces sombres */
+  --graphite: #1c2226;   /* cartes sur fond sombre */
+  --steel: #3a434a;      /* filets appuyés */
+  --mist: #8a959c;       /* texte secondaire sur sombre */
+  --fog: #c9cfd2;        /* texte tertiaire sur sombre */
+  --bone: #ece8e1;       /* fond clair principal */
+  --paper: #f6f4ef;      /* fond clair secondaire */
+  --stone: #5d6267;      /* texte secondaire sur clair */
+  --glacier: #a9dce3;    /* accent sur fond sombre */
+  --petrol: #1d5c64;     /* accent sur fond clair */
+
+  /* Rôles */
+  --bg-dark: var(--ink);
+  --fg-dark: #f3f1ec;
+  --fg-dark-muted: var(--mist);
+  --line-dark: rgba(243, 241, 236, 0.14);
+  --accent-on-dark: var(--glacier);
+
+  --bg-light: var(--bone);
+  --bg-light-alt: var(--paper);
+  --fg-light: #121517;
+  --fg-light-muted: var(--stone);
+  --line-light: rgba(18, 21, 23, 0.14);
+  --accent-on-light: var(--petrol);
+
+  --focus: var(--glacier);
+
+  /* Typographie */
+  --font-sans: "Archivo", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --stretch-display: 116%;
+  --stretch-label: 125%;
+  --stretch-body: 100%;
+
+  --step-hero: clamp(2.35rem, 1.2rem + 4.1vw, 5.6rem);
+  --step-h2: clamp(1.9rem, 1.15rem + 2.6vw, 3.75rem);
+  --step-h3: clamp(1.2rem, 1rem + 0.6vw, 1.5rem);
+  --step-lead: clamp(1.02rem, 0.94rem + 0.32vw, 1.22rem);
+  --step-body: 1rem;
+  --step-small: 0.8125rem;
+  --step-label: 0.72rem;
+
+  --leading-tight: 1.02;
+  --leading-snug: 1.18;
+  --leading-body: 1.62;
+  --tracking-label: 0.18em;
+  --tracking-display: -0.012em;
+
+  /* Espacements (base 4) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+  --gutter: clamp(1rem, 0.4rem + 2.6vw, 3rem);
+  --max-width: 84rem;
+
+  /* Formes & mouvement */
+  --radius: 2px;
+  --hairline: 1px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --header-h: 4.25rem;
+}
+
+/* Thème sombre : les sections claires passent en carbone, le reste est déjà sombre. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-light: #14191c;
+    --bg-light-alt: #101417;
+    --fg-light: #eeebe5;
+    --fg-light-muted: #9aa3a9;
+    --line-light: rgba(238, 235, 229, 0.13);
+    --accent-on-light: var(--glacier);
+  }
+}
+:root[data-theme="dark"] {
+  --bg-light: #14191c;
+  --bg-light-alt: #101417;
+  --fg-light: #eeebe5;
+  --fg-light-muted: #9aa3a9;
+  --line-light: rgba(238, 235, 229, 0.13);
+  --accent-on-light: var(--glacier);
+}

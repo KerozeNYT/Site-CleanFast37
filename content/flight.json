@@ -1,0 +1,85 @@
+{
+  "_doc": "Visite en vol continu. 'media' pointe vers le manifeste de la séquence d'images. 'beats' = chronologie de scroll par morceaux : chaque beat associe une distance de scroll (vh) à un intervalle du clip (secondes from→to). from == to = arrêt sur image. 'chapter' = texte affiché pendant ce beat (null = pas de texte, le mouvement parle). 'focus' = position horizontale du cadrage sur écran étroit (0 = gauche, 1 = droite), interpolée de [début, fin] du beat.",
+  "media": {
+    "active": "previs",
+    "sources": {
+      "previs": "media/flight/previs/manifest.json",
+      "footage": "media/flight/footage/manifest.json"
+    }
+  },
+  "fadeVh": 26,
+  "skip": { "label": "Passer la visite", "href": "#prestations" },
+  "beats": [
+    { "id": "hero-hold",     "vh": 70,  "from": 0,    "to": 0,    "chapter": "arrive",  "focus": [0.5, 0.5] },
+    { "id": "approach",      "vh": 150, "from": 0,    "to": 5.5,  "chapter": "arrive",  "focus": [0.5, 0.42] },
+    { "id": "front-door",    "vh": 60,  "from": 5.5,  "to": 7,    "chapter": null,      "focus": [0.42, 0.5] },
+    { "id": "detailing-bay", "vh": 210, "from": 7,    "to": 14,   "chapter": "auto",    "focus": [0.45, 0.6] },
+    { "id": "glass-door",    "vh": 60,  "from": 14,   "to": 16.5, "chapter": null,      "focus": [0.6, 0.5] },
+    { "id": "textile-room",  "vh": 190, "from": 16.5, "to": 23,   "chapter": "textile", "focus": [0.5, 0.55] },
+    { "id": "drying-aisle",  "vh": 150, "from": 23,   "to": 28,   "chapter": "finish",  "focus": [0.55, 0.5] },
+    { "id": "rear-exit",     "vh": 70,  "from": 28,   "to": 30.5, "chapter": null,      "focus": [0.5, 0.5] },
+    { "id": "yaw-180",       "vh": 80,  "from": 30.5, "to": 33.5, "chapter": null,      "focus": [0.5, 0.5] },
+    { "id": "reveal-climb",  "vh": 170, "from": 33.5, "to": 42,   "chapter": "reveal",  "focus": [0.5, 0.5] },
+    { "id": "aerial-hold",   "vh": 90,  "from": 42,   "to": 42,   "chapter": "reveal",  "focus": [0.5, 0.5] }
+  ],
+  "chapters": [
+    {
+      "id": "arrive",
+      "kind": "hero",
+      "align": "left",
+      "eyebrow": "Clean Fast 37 · Nettoyage haut de gamme · Indre-et-Loire",
+      "title": "Le soin du *détail*, de la carrosserie au canapé.",
+      "lead": "Nettoyage automobile intérieur et extérieur, entretien des tapis, canapés et matelas. Une exigence d'atelier, appliquée à tout ce que vous utilisez chaque jour.",
+      "ctas": [
+        { "label": "Demander un devis", "href": "#devis", "style": "primary" },
+        { "label": "Nos prestations", "href": "#prestations", "style": "ghost" }
+      ],
+      "still": { "time": 0, "alt": "Façade de l'atelier Clean Fast 37 au crépuscule, grande porte ouverte et lumière intérieure." }
+    },
+    {
+      "id": "auto",
+      "kind": "chapter",
+      "align": "left",
+      "eyebrow": "01 — Automobile",
+      "title": "Extérieur comme intérieur, *sans compromis*.",
+      "lead": "Lavage à la main, décontamination de la carrosserie, jantes et vitres. Dans l'habitacle : aspiration minutieuse, shampoing des sièges, soin des cuirs et traitement vapeur.",
+      "points": ["Lavage & décontamination", "Habitacle & cuirs", "Finition protectrice"],
+      "ctas": [{ "label": "Prestations automobile", "href": "#automobile", "style": "link" }],
+      "still": { "time": 10.5, "alt": "Atelier automobile : une berline noire sous une rampe de lumière, une seconde voiture portière ouverte." }
+    },
+    {
+      "id": "textile",
+      "kind": "chapter",
+      "align": "right",
+      "eyebrow": "02 — Textile de la maison",
+      "title": "Tapis et canapés retrouvent leur *éclat*.",
+      "lead": "Injection-extraction, vapeur et détachage choisis selon la fibre : laine, coton, lin, velours ou synthétique. Tapis, canapés, fauteuils et matelas.",
+      "points": ["Tapis & moquettes", "Canapés & fauteuils", "Matelas"],
+      "ctas": [{ "label": "Prestations textile", "href": "#textile", "style": "link" }],
+      "still": { "time": 19.5, "alt": "Atelier textile : un tapis posé à plat, un canapé en lin et une machine d'injection-extraction." }
+    },
+    {
+      "id": "finish",
+      "kind": "chapter",
+      "align": "left",
+      "eyebrow": "03 — Finition",
+      "title": "Séchage maîtrisé, *contrôle* à la lumière.",
+      "lead": "Chaque pièce est séchée, brossée et vérifiée avant de vous être rendue.",
+      "ctas": [{ "label": "Notre méthode", "href": "#methode", "style": "link" }],
+      "still": { "time": 25.5, "alt": "Salle de séchage : une allée de tapis suspendus à des rails." }
+    },
+    {
+      "id": "reveal",
+      "kind": "closing",
+      "align": "left",
+      "eyebrow": "Clean Fast 37",
+      "title": "Votre atelier de nettoyage en *Indre-et-Loire*.",
+      "lead": "Automobile et textile de la maison, au même niveau d'exigence. Parlez-nous de votre besoin : nous vous répondons avec un devis clair.",
+      "ctas": [
+        { "label": "Demander un devis", "href": "#devis", "style": "primary" },
+        { "label": "Coordonnées", "href": "#contact", "style": "ghost" }
+      ],
+      "still": { "time": 42, "alt": "Vue aérienne de l'atelier, de sa cour, de la zone d'activité et de la route principale au crépuscule." }
+    }
+  ]
+}

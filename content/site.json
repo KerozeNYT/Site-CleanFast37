@@ -1,0 +1,141 @@
+{
+  "_doc": "Contenu éditable du site. Toute valeur null s'affiche comme « à compléter » tant que 'demo' vaut true. Le texte entre *astérisques* est composé en italique serif (accent).",
+  "demo": {
+    "enabled": true,
+    "banner": "Version de travail — coordonnées, tarifs, logo officiel et images définitives à compléter."
+  },
+  "meta": {
+    "lang": "fr",
+    "title": "Clean Fast 37 — Nettoyage automobile & textile haut de gamme en Indre-et-Loire",
+    "description": "Nettoyage automobile intérieur et extérieur, entretien des tapis, canapés et matelas. Clean Fast 37, l'exigence d'un atelier haut de gamme en Indre-et-Loire.",
+    "url": "https://www.cleanfast37.fr/",
+    "themeColor": "#0B0E10"
+  },
+  "brand": {
+    "name": "Clean Fast 37",
+    "logo": null,
+    "logoAlt": "Clean Fast 37",
+    "wordmark": { "primary": "Clean Fast", "secondary": "37" }
+  },
+  "nav": [
+    { "label": "L'atelier", "href": "#visite" },
+    { "label": "Automobile", "href": "#automobile" },
+    { "label": "Textile", "href": "#textile" },
+    { "label": "Méthode", "href": "#methode" },
+    { "label": "Contact", "href": "#contact" }
+  ],
+  "navCta": { "label": "Devis", "href": "#devis" },
+  "services": {
+    "id": "prestations",
+    "eyebrow": "Prestations",
+    "title": "Deux savoir-faire, *une même exigence*.",
+    "intro": "Chaque surface a sa méthode. Nous choisissons produits, outils et temps de pose selon la matière, jamais l'inverse.",
+    "groups": [
+      {
+        "id": "automobile",
+        "label": "Automobile",
+        "title": "Votre véhicule, intérieur et extérieur",
+        "items": [
+          {
+            "name": "Extérieur",
+            "summary": "Une carrosserie propre en profondeur, sans micro-rayures ajoutées.",
+            "details": ["Prélavage et lavage à la main", "Décontamination ferreuse et goudron", "Jantes, pneus et passages de roue", "Vitres et finition protectrice"],
+            "price": null
+          },
+          {
+            "name": "Intérieur",
+            "summary": "Un habitacle assaini, des matières nettoyées et nourries.",
+            "details": ["Aspiration complète, coffre compris", "Shampoing des sièges et moquettes", "Nettoyage et soin des cuirs", "Plastiques, vitres et traitement vapeur"],
+            "price": null
+          },
+          {
+            "name": "Complet",
+            "summary": "L'intérieur et l'extérieur dans une même intervention.",
+            "details": ["Toutes les étapes Extérieur et Intérieur", "Contrôle final à la lumière", "Conseils d'entretien"],
+            "price": null
+          }
+        ]
+      },
+      {
+        "id": "textile",
+        "label": "Textile de la maison",
+        "title": "Tapis, canapés, matelas",
+        "items": [
+          {
+            "name": "Tapis & moquettes",
+            "summary": "Fibres ravivées, taches traitées, couleurs respectées.",
+            "details": ["Dépoussiérage en profondeur", "Injection-extraction adaptée à la fibre", "Détachage ciblé", "Séchage maîtrisé"],
+            "price": null
+          },
+          {
+            "name": "Canapés & fauteuils",
+            "summary": "Tissu, velours ou microfibre retrouvent leur toucher.",
+            "details": ["Test de tenue des couleurs", "Aspiration et brossage", "Injection-extraction ou vapeur", "Traitement des taches et odeurs"],
+            "price": null
+          },
+          {
+            "name": "Matelas",
+            "summary": "Un couchage assaini, des deux côtés.",
+            "details": ["Aspiration haute filtration", "Traitement vapeur", "Détachage", "Séchage avant remise en service"],
+            "price": null
+          }
+        ]
+      }
+    ],
+    "priceLabel": "Tarif",
+    "priceFallback": "Sur devis"
+  },
+  "method": {
+    "id": "methode",
+    "eyebrow": "Méthode",
+    "title": "Quatre temps, *aucun raccourci*.",
+    "steps": [
+      { "name": "Diagnostic", "text": "Matières, taches, état général : nous identifions la bonne méthode avant de commencer." },
+      { "name": "Devis clair", "text": "Le prix et le déroulé sont annoncés avant toute intervention." },
+      { "name": "Intervention", "text": "Produits et techniques adaptés à chaque surface : vernis, cuir, laine, lin, microfibre." },
+      { "name": "Contrôle", "text": "Vérification finale à la lumière avant de vous rendre votre véhicule ou votre textile." }
+    ]
+  },
+  "quote": {
+    "id": "devis",
+    "eyebrow": "Devis",
+    "title": "Parlez-nous de *votre besoin*.",
+    "intro": "Décrivez le véhicule ou le textile à traiter. Une photo aide souvent à préciser le devis.",
+    "form": {
+      "endpoint": null,
+      "method": "POST",
+      "demoNotice": "Mode démonstration : ce formulaire n'est relié à aucune adresse de réception. Rien n'est envoyé tant que « form.endpoint » n'est pas renseigné dans content/site.json.",
+      "successMessage": "Merci, votre demande a bien été transmise. Nous revenons vers vous rapidement.",
+      "errorMessage": "L'envoi a échoué. Merci de réessayer ou de nous contacter directement.",
+      "demoResult": "Mode démonstration : votre demande n'a pas été envoyée.",
+      "services": [
+        "Automobile — extérieur",
+        "Automobile — intérieur",
+        "Automobile — complet",
+        "Tapis / moquette",
+        "Canapé / fauteuil",
+        "Matelas",
+        "Autre"
+      ],
+      "consent": "J'accepte que mes informations soient utilisées pour répondre à ma demande de devis."
+    }
+  },
+  "contact": {
+    "id": "contact",
+    "eyebrow": "Contact",
+    "title": "Clean Fast 37",
+    "phone": null,
+    "email": null,
+    "address": null,
+    "area": "Tours et Indre-et-Loire (37) — zone d'intervention à confirmer",
+    "hours": null,
+    "socials": []
+  },
+  "footer": {
+    "legal": [
+      { "label": "Mentions légales", "href": null },
+      { "label": "Politique de confidentialité", "href": null }
+    ],
+    "credit": "Visuels de l'atelier : prévisualisation 3D en attente des rendus Higgsfield."
+  }
+}
