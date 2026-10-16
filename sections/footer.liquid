@@ -23,6 +23,7 @@
     <div class="site-footer__bottom">
       {%- assign current_year = 'now' | date: '%Y' -%}
       <span>{{ 'footer.copyright' | t: year: current_year, shop: shop.name }}</span>
+      <button type="button" class="footer-link" data-cookie-preferences hidden>{{ 'footer.cookie_preferences' | t }}</button>
       {%- liquid
         assign socials = ''
         if settings.social_tiktok != blank

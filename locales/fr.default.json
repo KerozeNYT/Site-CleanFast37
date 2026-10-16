@@ -82,7 +82,8 @@
   "footer": {
     "payment": "Moyens de paiement acceptés",
     "social": "Réseaux sociaux",
-    "copyright": "© {{ year }} {{ shop }}"
+    "copyright": "© {{ year }} {{ shop }}",
+    "cookie_preferences": "Préférences de cookies"
   },
   "templates": {
     "404_title": "Cette page n’existe pas",

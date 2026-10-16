@@ -1301,3 +1301,17 @@ body.drawer-open {
   font-weight: 600;
   letter-spacing: 0.08em;
 }
+
+.footer-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-secondary);
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}

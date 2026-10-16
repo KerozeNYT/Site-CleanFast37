@@ -1,0 +1,47 @@
+{%- comment -%}
+  Données structurées de la boutique (page d'accueil) : uniquement des informations réelles
+  issues des réglages Shopify. Aucune note, aucun avis, aucune statistique.
+{%- endcomment -%}
+{%- liquid
+  assign same_as = ''
+  if settings.social_tiktok != blank
+    assign same_as = same_as | append: settings.social_tiktok | append: '|'
+  endif
+  if settings.social_instagram != blank
+    assign same_as = same_as | append: settings.social_instagram | append: '|'
+  endif
+  if settings.social_facebook != blank
+    assign same_as = same_as | append: settings.social_facebook | append: '|'
+  endif
+  if settings.social_youtube != blank
+    assign same_as = same_as | append: settings.social_youtube | append: '|'
+  endif
+  assign same_as_list = same_as | split: '|'
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": {{ shop.url | append: '/#organization' | json }},
+        "name": {{ shop.name | json }},
+        "url": {{ shop.url | json }}
+        {%- if settings.logo != blank -%},
+        "logo": {{ settings.logo | image_url: width: 600 | prepend: 'https:' | json }}
+        {%- endif -%}
+        {%- if same_as_list.size > 0 -%},
+        "sameAs": {{ same_as_list | json }}
+        {%- endif %}
+      },
+      {
+        "@type": "WebSite",
+        "@id": {{ shop.url | append: '/#website' | json }},
+        "name": {{ shop.name | json }},
+        "url": {{ shop.url | json }},
+        "inLanguage": "fr-FR",
+        "publisher": { "@id": {{ shop.url | append: '/#organization' | json }} }
+      }
+    ]
+  }
+</script>

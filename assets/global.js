@@ -597,6 +597,21 @@
     });
   }
 
+  /* ---------- Préférences de cookies (bannière native Shopify) ---------- */
+  function initCookiePreferences() {
+    const link = $('[data-cookie-preferences]');
+    if (!link) return;
+    const banner = () => window.privacyBanner && typeof window.privacyBanner.showPreferences === 'function' ? window.privacyBanner : null;
+    const reveal = () => {
+      if (banner()) link.hidden = false;
+    };
+    reveal();
+    window.addEventListener('load', reveal);
+    link.addEventListener('click', () => {
+      if (banner()) banner().showPreferences();
+    });
+  }
+
   /* ---------- Démarrage (et rechargement des sections dans l'éditeur de thème) ---------- */
   function init() {
     initReveal();
@@ -610,6 +625,7 @@
   }
 
   initMenu();
+  initCookiePreferences();
   Cart.init();
   init();
   document.addEventListener('shopify:section:load', init);
