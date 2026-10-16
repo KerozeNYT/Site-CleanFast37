@@ -1,0 +1,11 @@
+{%- comment -%} Page de contenu (mentions, cookies, à propos…). {%- endcomment -%}
+<section class="page-content">
+  <div class="text-width">
+    <h1>{{ page.title }}</h1>
+    <div class="rte">{{ page.content }}</div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Contenu de la page", "tag": "div", "settings": [] }
+{% endschema %}

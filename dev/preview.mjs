@@ -87,17 +87,17 @@ function cartDrop() {
   return { items, item_count: count, total_price: items.reduce((n, it) => n + it.final_line_price, 0), currency: { iso_code: 'EUR' }, note: cart.note };
 }
 
-function globals(page = 'index') {
+function globals(page = 'index', suffix = null) {
   return {
     settings: themeSettings,
-    shop: { name: 'Maison Nette', description: '', money_format: '{{amount_with_comma_separator}} €', enabled_payment_types: [], shipping_policy: null, refund_policy: null, terms_of_service: null, privacy_policy: null },
+    shop: { name: 'Maison Nette', url: `http://localhost:${port}`, description: '', money_format: '{{amount_with_comma_separator}} €', enabled_payment_types: [], shipping_policy: null, refund_policy: null, terms_of_service: null, privacy_policy: null },
     routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', cart_change_url: '/cart/change', all_products_collection_url: '/collections/all', search_url: '/search', account_url: '/account' },
     request: { design_mode: designMode, locale: { iso_code: 'fr' }, page_type: page, origin: `http://localhost:${port}`, path: '/' },
     collections: { all: { products: [product], title: 'Tous les produits', url: '/collections/all' } },
     linklists,
     cart: cartDrop(),
     product: page === 'product' ? product : null,
-    template: { name: page, suffix: null },
+    template: { name: page, suffix },
     canonical_url: `http://localhost:${port}/`,
     page_title: page === 'product' ? product.title : 'Rouleau anti-poils pour chiens et chats ACE2ACE',
     page_description: 'Rouleau réutilisable anti-poils ACE2ACE pour chiens et chats : manuel, sans pile, avec compartiment de collecte.',
@@ -141,6 +141,8 @@ liquid.registerFilter('video_tag', () => '<video controls muted playsinline></vi
 liquid.registerFilter('external_video_tag', () => '');
 liquid.registerFilter('media_tag', () => '');
 liquid.registerFilter('payment_type_svg_tag', () => '');
+liquid.registerFilter('metafield_tag', (mf) => String(mf ?? ''));
+liquid.registerFilter('structured_data', (p) => JSON.stringify({ '@context': 'https://schema.org', '@type': 'Product', name: p.title, brand: { '@type': 'Brand', name: p.vendor }, offers: { '@type': 'Offer', price: (p.price / 100).toFixed(2), priceCurrency: 'EUR', availability: 'https://schema.org/InStock' } }));
 liquid.registerFilter('payment_button', () => '<div class="shopify-payment-button"><button type="button" class="shopify-payment-button__button" style="width:100%;background:#000;color:#fff;border:0;font-weight:600" disabled>Paiement accéléré (selon les moyens activés)</button></div>');
 
 liquid.registerTag('schema', {
@@ -222,7 +224,7 @@ function resolveSettings(defs = [], values = {}) {
   return out;
 }
 
-async function renderSection(id, data, page) {
+async function renderSection(id, data, page, suffix = null) {
   const { src, schema } = sectionFile(data.type);
   const order = data.block_order || Object.keys(data.blocks || {});
   const blocks = order.map((key) => {
@@ -231,7 +233,7 @@ async function renderSection(id, data, page) {
     return { id: key, type: b.type, settings: resolveSettings(def.settings, b.settings), shopify_attributes: '' };
   });
   const section = { id, settings: resolveSettings(schema.settings, data.settings), blocks };
-  const html = await liquid.parseAndRender(src, { section }, { globals: globals(page) });
+  const html = await liquid.parseAndRender(src, { section }, { globals: globals(page, suffix) });
   const tag = schema.tag || 'div';
   return `<${tag} id="shopify-section-${id}" class="shopify-section${schema.class ? ' ' + schema.class : ''}">${html}</${tag}>`;
 }
@@ -252,21 +254,28 @@ liquid.registerTag('sections', {
   }
 });
 
-async function renderPage(page) {
-  const tpl = readJSON(`templates/${page}.json`);
+async function renderPage(page, suffix = null) {
+  const file = suffix && fs.existsSync(path.join(root, `templates/${page}.${suffix}.json`)) ? `${page}.${suffix}` : page;
+  const tpl = readJSON(`templates/${file}.json`);
   const parts = [];
   for (const key of tpl.order) {
     if (tpl.sections[key].disabled) continue;
-    parts.push(await renderSection(`template--preview__${key}`, tpl.sections[key], page));
+    parts.push(await renderSection(`template--preview__${key}`, tpl.sections[key], page, suffix));
   }
   const layout = read('layout/theme.liquid');
-  return liquid.parseAndRender(layout, { content_for_layout: parts.join('\n') }, { globals: globals(page) });
+  return liquid.parseAndRender(layout, { content_for_layout: parts.join('\n') }, { globals: globals(page, file === page ? null : suffix) });
 }
 
 const renderSections = async (ids, page) => {
   const out = {};
   for (const id of ids) {
-    out[id] = fs.existsSync(path.join(root, `sections/${id}.liquid`)) ? await renderSection(id, { type: id, settings: {} }, page) : null;
+    const m = id.match(/^template--preview__(.+)$/);
+    if (m) {
+      const tpl = readJSON('templates/cart.json');
+      out[id] = tpl.sections[m[1]] ? await renderSection(id, tpl.sections[m[1]], 'cart') : null;
+    } else {
+      out[id] = fs.existsSync(path.join(root, `sections/${id}.liquid`)) ? await renderSection(id, { type: id, settings: {} }, page) : null;
+    }
   }
   return out;
 };
@@ -329,8 +338,8 @@ const server = http.createServer(async (req, res) => {
       cart.items = [];
       return send(res, 200, 'ok', 'text/plain');
     }
-    const page = url.pathname.startsWith('/products/') ? 'product' : url.pathname === '/' ? 'index' : null;
-    if (page && fs.existsSync(path.join(root, `templates/${page}.json`))) return send(res, 200, await renderPage(page));
+    const page = url.pathname.startsWith('/products/') ? 'product' : url.pathname === '/' ? 'index' : url.pathname === '/cart' ? 'cart' : null;
+    if (page && fs.existsSync(path.join(root, `templates/${page}.json`))) return send(res, 200, await renderPage(page, url.searchParams.get('view')));
     return send(res, 404, '<h1>404 (aperçu local)</h1>');
   } catch (err) {
     console.error(err);

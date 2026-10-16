@@ -1,0 +1,52 @@
+{%- comment -%}
+  Page panier : mêmes lignes que le panier latéral, mises à jour sans rechargement
+  (Ajax Cart API + Section Rendering API). Fonctionne aussi sans JavaScript (bouton « Mettre à jour »).
+{%- endcomment -%}
+<section class="page-content main-cart" aria-labelledby="CartTitle-{{ section.id }}">
+  <div class="page-width main-cart__inner" data-cart-root data-section-id="{{ section.id }}">
+    <h1 id="CartTitle-{{ section.id }}">{{ 'cart.title' | t }}</h1>
+    {%- if cart.item_count == 0 -%}
+      <div class="cart-empty stack">
+        <p class="lead">{{ 'cart.empty' | t }}</p>
+        <div><a class="button" href="{{ section.settings.continue_link | default: routes.all_products_collection_url }}">{{ 'cart.continue' | t }}</a></div>
+      </div>
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post" id="CartForm" class="main-cart__grid" novalidate>
+        <div class="main-cart__items">
+          {% render 'cart-items', context: 'page' %}
+          <noscript><button type="submit" name="update" class="button button--outline button--small">{{ 'cart.update' | t }}</button></noscript>
+        </div>
+        <aside class="main-cart__summary stack">
+          <div class="cart-subtotal">
+            <span>{{ 'cart.subtotal' | t }}</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <p class="small">{{ 'cart.taxes_included' | t }}</p>
+          {%- if section.settings.show_note -%}
+            <div class="field">
+              <label for="CartNote">{{ 'cart.note' | t }}</label>
+              <textarea id="CartNote" name="note">{{ cart.note }}</textarea>
+            </div>
+          {%- endif -%}
+          {%- if settings.cart_note != blank -%}<div class="small rte">{{ settings.cart_note }}</div>{%- endif -%}
+          <p class="cart-status" role="status" aria-live="polite" data-cart-status></p>
+          <button type="submit" name="checkout" class="button button--full">{% render 'icon', name: 'lock' %}{{ 'cart.checkout' | t }}</button>
+          {%- if settings.cart_show_payment_buttons and additional_checkout_buttons -%}
+            <div class="main-cart__payment">{{ content_for_additional_checkout_buttons }}</div>
+          {%- endif -%}
+        </aside>
+      </form>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Panier",
+  "tag": "div",
+  "settings": [
+    { "type": "checkbox", "id": "show_note", "label": "Champ « instructions pour la commande »", "default": false },
+    { "type": "url", "id": "continue_link", "label": "Lien « Continuer mes achats »" }
+  ]
+}
+{% endschema %}

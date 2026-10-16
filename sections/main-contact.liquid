@@ -1,0 +1,53 @@
+{%- comment -%}
+  Page contact : texte de la page + vrai formulaire Shopify (les messages arrivent à l'adresse
+  e-mail de la boutique). Aucune coordonnée n'est inventée : elles s'ajoutent dans le texte de la page.
+{%- endcomment -%}
+<section class="page-content">
+  <div class="text-width contact">
+    <h1>{{ page.title }}</h1>
+    {%- if page.content != blank -%}<div class="rte">{{ page.content }}</div>{%- endif -%}
+    {%- form 'contact', id: 'ContactForm', class: 'contact__form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="form-message" role="status" tabindex="-1" autofocus>{{ 'templates.contact_success' | t }}</p>
+      {%- elsif form.errors -%}
+        <div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="contact__row">
+        <div class="field">
+          <label for="ContactName">{{ 'templates.contact_name' | t }}</label>
+          <input id="ContactName" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
+        </div>
+        <div class="field">
+          <label for="ContactEmail">{{ 'templates.contact_email' | t }} <span aria-hidden="true">*</span></label>
+          <input id="ContactEmail" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
+        </div>
+      </div>
+      <div class="contact__row">
+        <div class="field">
+          <label for="ContactPhone">{{ 'templates.contact_phone' | t }}</label>
+          <input id="ContactPhone" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}">
+        </div>
+        <div class="field">
+          <label for="ContactOrder">{{ 'templates.contact_order' | t }}</label>
+          <input id="ContactOrder" type="text" name="contact[numero_de_commande]">
+        </div>
+      </div>
+      <div class="field">
+        <label for="ContactBody">{{ 'templates.contact_message' | t }} <span aria-hidden="true">*</span></label>
+        <textarea id="ContactBody" name="contact[body]" required>{{ form.body }}</textarea>
+      </div>
+      {%- if section.settings.privacy_text != blank -%}<div class="small rte">{{ section.settings.privacy_text }}</div>{%- endif -%}
+      <div><button type="submit" class="button">{{ 'templates.contact_send' | t }}</button></div>
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Formulaire de contact",
+  "tag": "div",
+  "settings": [
+    { "type": "richtext", "id": "privacy_text", "label": "Mention sous le formulaire", "default": "<p>Vos informations servent uniquement à répondre à votre demande. Voir notre politique de confidentialité.</p>" }
+  ]
+}
+{% endschema %}

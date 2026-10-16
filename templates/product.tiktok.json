@@ -1,0 +1,199 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_breadcrumbs": false,
+        "sticky_bar": true,
+        "sticky_title": "ACE2ACE",
+        "compact": true
+      },
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "availability": {
+          "type": "availability",
+          "settings": {}
+        },
+        "short": {
+          "type": "short_description",
+          "settings": {}
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true
+          }
+        },
+        "assurance": {
+          "type": "assurance",
+          "settings": {}
+        },
+        "usage": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Utilisation",
+            "source": "usage",
+            "fallback": "<p>Passez le rouleau en va-et-vient sur le textile. Les poils sont collectés dans le compartiment. Ouvrez-le ensuite pour le vider.</p>"
+          }
+        },
+        "care": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Entretien",
+            "source": "care",
+            "fallback": "<p>Videz le compartiment après chaque utilisation. Pour le reste de l’entretien, suivez la notice du fabricant.</p>"
+          }
+        },
+        "delivery": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Livraison",
+            "source": "delivery",
+            "fallback": "<p>Les modes et frais de livraison disponibles pour votre adresse sont affichés avant le paiement.</p>"
+          }
+        },
+        "returns": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Retours",
+            "source": "returns",
+            "fallback": "<p>Vous disposez d’un droit de rétractation de 14 jours à compter de la réception de votre commande.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "availability",
+        "short",
+        "buy",
+        "assurance",
+        "usage",
+        "care",
+        "delivery",
+        "returns"
+      ]
+    },
+    "steps": {
+      "type": "how-it-works",
+      "settings": {
+        "anchor": "fonctionnement",
+        "heading": "Trois gestes, c’est tout."
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Passez le rouleau",
+            "text": "Effectuez des mouvements de va-et-vient sur le textile."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Collectez les poils",
+            "text": "Les poils sont récupérés dans le compartiment du rouleau."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Ouvrez et videz",
+            "text": "Ouvrez le compartiment et retirez les poils accumulés."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ]
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {},
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "Comment utiliser le rouleau ?",
+            "answer": "<p>Passez le rouleau en va-et-vient sur le textile. Les poils sont collectés dans son compartiment. Une fois le compartiment rempli, ouvrez-le et videz-le.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Sur quels textiles fonctionne-t-il ?",
+            "answer": "<p>Il s’utilise sur les textiles compatibles indiqués par le fabricant, par exemple un canapé en tissu, un coussin ou un panier pour animaux. Consultez la notice et faites un essai sur une petite zone discrète avant la première utilisation sur un textile délicat.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Peut-il s’utiliser sur les sièges automobiles ?",
+            "answer": "<p>Il peut s’utiliser sur les sièges et banquettes en tissu, dans la limite des textiles compatibles indiqués par le fabricant. Sans pile ni branchement, il peut rester dans la voiture.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Comment vider le compartiment ?",
+            "answer": "<p>Ouvrez le compartiment de collecte, retirez les poils accumulés et jetez-les, puis refermez-le. Le rouleau est prêt à servir de nouveau.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "Le rouleau nécessite-t-il des piles ?",
+            "answer": "<p>Non. Le rouleau est entièrement manuel : il ne nécessite ni pile, ni batterie, ni branchement électrique.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "Comment entretenir le produit ?",
+            "answer": "<p>Videz le compartiment après chaque utilisation. Pour l’entretien détaillé, suivez la notice fournie par le fabricant avec le produit.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>Les modes et frais de livraison disponibles pour votre adresse sont affichés avant le paiement. Les délais sont précisés dans notre politique d’expédition.</p>",
+            "policy": "shipping"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "Comment effectuer un retour ?",
+            "answer": "<p>Vous disposez d’un droit de rétractation de 14 jours à compter de la réception de votre commande. Les conditions et la marche à suivre sont détaillées dans notre politique de retour.</p>",
+            "policy": "refund"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "steps",
+    "faq"
+  ]
+}

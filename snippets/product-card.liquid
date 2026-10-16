@@ -1,0 +1,22 @@
+{%- comment -%} Carte produit (collection, recherche). Paramètres : product, eager {%- endcomment -%}
+{%- assign v = product.selected_or_first_available_variant -%}
+<article class="product-card">
+  <a class="product-card__link" href="{{ product.url }}">
+    <div class="media product-card__media">
+      {%- if product.featured_media != blank -%}
+        {% render 'responsive-image', image: product.featured_media.preview_image, sizes: '(min-width: 990px) 400px, 50vw', widths: '300, 400, 600, 800', eager: eager %}
+      {%- else -%}
+        {% render 'media-placeholder', kind: 'product-1' %}
+      {%- endif -%}
+    </div>
+    <div class="product-card__info">
+      <p class="small product-card__vendor">{{ product.vendor }}</p>
+      <h3 class="product-card__title">{{ product.title }}</h3>
+      {%- if v.available -%}
+        <p class="price-tag"><strong>{{ v.price | money }}</strong> {{ 'general.price_ttc' | t }}</p>
+      {%- else -%}
+        <p class="small">{{ 'product.sold_out' | t }}</p>
+      {%- endif -%}
+    </div>
+  </a>
+</article>

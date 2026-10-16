@@ -1,0 +1,12 @@
+<section class="page-content center">
+  <div class="text-width stack">
+    <p class="eyebrow">404</p>
+    <h1>{{ 'templates.404_title' | t }}</h1>
+    <p class="lead">{{ 'templates.404_text' | t }}</p>
+    <div class="actions"><a class="button" href="{{ routes.root_url }}">{{ 'general.back_home' | t }}</a></div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Page introuvable", "tag": "div", "settings": [] }
+{% endschema %}

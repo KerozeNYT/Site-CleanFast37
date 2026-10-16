@@ -1,0 +1,98 @@
+.main-product {
+  padding-block: 16px var(--section-space);
+}
+
+.main-product__crumbs {
+  margin-bottom: 20px;
+}
+
+.main-product__grid {
+  display: grid;
+  gap: 28px;
+}
+
+/* Téléphone : galerie bord à bord, comme une page produit d'application. */
+@media (max-width: 749px) {
+  .main-product__gallery {
+    margin-inline: calc(-1 * var(--gutter));
+  }
+
+  .main-product__gallery .gallery__track,
+  .main-product__gallery .gallery__item--empty {
+    border-radius: 0;
+  }
+
+  .main-product__gallery .gallery__thumbs {
+    padding-inline: var(--gutter);
+  }
+}
+
+@media (min-width: 990px) {
+  .main-product {
+    padding-top: 32px;
+  }
+
+  .main-product__grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .main-product__info {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+}
+
+.main-product__lead {
+  font-size: 1.0625rem;
+}
+
+.main-product__accordion summary {
+  font-size: 1rem;
+  min-height: 56px;
+}
+
+.main-product__info .accordion + .accordion {
+  border-top: 0;
+  margin-top: -20px;
+}
+
+.main-product__hint {
+  padding: 12px 14px;
+  border: 1px dashed rgba(var(--color-text-rgb), 0.25);
+  border-radius: var(--radius-s);
+  color: var(--color-text-secondary);
+}
+
+/* Atterrissage publicitaire : tout l'essentiel dans le premier écran. */
+.main-product--compact {
+  padding-top: 0;
+}
+
+.main-product--compact .main-product__grid {
+  gap: 18px;
+}
+
+.main-product--compact .product-info {
+  gap: 14px;
+}
+
+.main-product--compact .product-info__title {
+  font-size: calc(clamp(1.6rem, 1.2rem + 1.8vw, 2.6rem) * var(--heading-scale));
+}
+
+@media (max-width: 749px) {
+  .main-product--compact .gallery__item {
+    aspect-ratio: 4 / 3.4;
+  }
+}
+
+.sticky-buy__form {
+  margin-left: auto;
+  flex: none;
+}
+
+.sticky-buy .price {
+  font-size: var(--fs-small);
+}

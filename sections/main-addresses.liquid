@@ -1,0 +1,38 @@
+{%- comment -%} Carnet d'adresses (comptes classiques). {%- endcomment -%}
+<section class="page-content account">
+  <div class="page-width stack">
+    <a class="small" href="{{ routes.account_url }}">← {{ 'customer.account' | t }}</a>
+    <h1>{{ 'customer.addresses' | t }}</h1>
+    <div class="account__grid">
+      {%- paginate customer.addresses by 10 -%}
+        {%- for address in customer.addresses -%}
+          <div class="account__panel stack">
+            {%- if address == customer.default_address -%}<p class="eyebrow">{{ 'customer.default' | t }}</p>{%- endif -%}
+            <address class="small">{{ address | format_address }}</address>
+            <details>
+              <summary class="small">{{ 'customer.edit' | t }}</summary>
+              {%- form 'customer_address', address -%}
+                {% render 'address-fields', form: form, prefix: address.id %}
+              {%- endform -%}
+            </details>
+            <form method="post" action="{{ address.url }}">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="button button--outline button--small">{{ 'customer.delete' | t }}</button>
+            </form>
+          </div>
+        {%- endfor -%}
+        {% render 'pagination', paginate: paginate %}
+      {%- endpaginate -%}
+    </div>
+    <details class="account__panel">
+      <summary>{{ 'customer.add_address' | t }}</summary>
+      {%- form 'customer_address', customer.new_address -%}
+        {% render 'address-fields', form: form, prefix: 'new' %}
+      {%- endform -%}
+    </details>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Adresses", "tag": "div", "settings": [] }
+{% endschema %}

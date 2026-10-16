@@ -1,0 +1,44 @@
+{%- comment -%} Connexion client (comptes classiques) et récupération du mot de passe. {%- endcomment -%}
+<section class="page-content account">
+  <div class="account__narrow stack">
+    <div class="account__panel account__login stack" id="login">
+      <h1>{{ 'customer.login' | t }}</h1>
+      {%- form 'customer_login', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}<div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <div class="field">
+          <label for="LoginEmail">{{ 'customer.email' | t }}</label>
+          <input id="LoginEmail" type="email" name="customer[email]" autocomplete="email" autocapitalize="off" required>
+        </div>
+        {%- if form.password_needed -%}
+          <div class="field">
+            <label for="LoginPassword">{{ 'customer.password' | t }}</label>
+            <input id="LoginPassword" type="password" name="customer[password]" autocomplete="current-password" required>
+          </div>
+          <a class="small" href="#recover">{{ 'customer.forgot' | t }}</a>
+        {%- endif -%}
+        <button type="submit" class="button button--full">{{ 'customer.login' | t }}</button>
+      {%- endform -%}
+      <a class="link-chevron" href="{{ routes.account_register_url }}">{{ 'customer.register' | t }}</a>
+    </div>
+
+    <div class="account__panel account__recover stack" id="recover">
+      <h2 class="h3">{{ 'customer.reset' | t }}</h2>
+      {%- form 'recover_customer_password' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form-message" role="status">{{ 'customer.recover_success' | t }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}<div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <div class="field">
+          <label for="RecoverEmail">{{ 'customer.email' | t }}</label>
+          <input id="RecoverEmail" type="email" name="email" autocomplete="email" required>
+        </div>
+        <button type="submit" class="button button--outline">{{ 'customer.submit' | t }}</button>
+      {%- endform -%}
+      <a class="small" href="#login">{{ 'general.back' | t }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Connexion", "tag": "div", "settings": [] }
+{% endschema %}

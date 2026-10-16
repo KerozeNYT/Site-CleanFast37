@@ -1,0 +1,12 @@
+{%- comment -%} Pagination accessible. Paramètre : paginate {%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination" aria-label="{{ 'general.pagination' | t }}">
+    {%- if paginate.previous -%}
+      <a class="button button--outline button--small" href="{{ paginate.previous.url }}">{{ 'general.pagination_previous' | t }}</a>
+    {%- endif -%}
+    <span class="small">{{ 'general.pagination_status' | t: current: paginate.current_page, total: paginate.pages }}</span>
+    {%- if paginate.next -%}
+      <a class="button button--outline button--small" href="{{ paginate.next.url }}">{{ 'general.pagination_next' | t }}</a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}

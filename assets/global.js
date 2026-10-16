@@ -341,26 +341,30 @@
   function initStickyBuy() {
     const bar = $('[data-sticky-buy]');
     const target = bar && document.getElementById(bar.dataset.stickyBuy);
-    if (!bar || !target || !('IntersectionObserver' in window)) return;
+    if (!bar || !target || bar.dataset.bound) return;
+    bar.dataset.bound = 'true';
     const footer = $('.site-footer');
-    let pastForm = false;
-    let footerVisible = false;
+    let shown = null;
+    let ticking = false;
+    // Position calculée au défilement : un saut d'ancre ne déclenche aucun IntersectionObserver.
     const update = () => {
+      ticking = false;
+      const pastForm = target.getBoundingClientRect().bottom < 0;
+      const footerVisible = footer ? footer.getBoundingClientRect().top < window.innerHeight : false;
       const show = pastForm && !footerVisible;
+      if (show === shown) return;
+      shown = show;
       bar.classList.toggle('is-visible', show);
       bar.setAttribute('aria-hidden', String(!show));
       $$('a, button', bar).forEach((el) => (show ? el.removeAttribute('tabindex') : el.setAttribute('tabindex', '-1')));
     };
-    new IntersectionObserver(([entry]) => {
-      pastForm = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-      update();
-    }).observe(target);
-    if (footer) {
-      new IntersectionObserver(([entry]) => {
-        footerVisible = entry.isIntersecting;
-        update();
-      }).observe(footer);
-    }
+    const request = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
     update();
   }
 

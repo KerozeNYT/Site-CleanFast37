@@ -1,0 +1,28 @@
+<section class="page-content">
+  <div class="page-width stack">
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="rte lead">{{ collection.description }}</div>{%- endif -%}
+    {%- paginate collection.products by section.settings.per_page -%}
+      {%- if collection.products.size > 0 -%}
+        <ul class="product-grid" role="list">
+          {%- for product in collection.products -%}
+            <li>{% render 'product-card', product: product, eager: forloop.first %}</li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p>{{ 'templates.collection_empty' | t }}</p>
+      {%- endif -%}
+      {% render 'pagination', paginate: paginate %}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "div",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Produits par page", "min": 4, "max": 24, "step": 4, "default": 12 }
+  ]
+}
+{% endschema %}

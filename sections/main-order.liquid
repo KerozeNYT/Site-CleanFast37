@@ -1,0 +1,46 @@
+<section class="page-content account">
+  <div class="page-width stack">
+    <a class="small" href="{{ routes.account_url }}">← {{ 'customer.account' | t }}</a>
+    <h1>{{ 'customer.order' | t: name: order.name }}</h1>
+    <p class="small">{{ order.created_at | time_tag: format: 'date_at_time' }}</p>
+    {%- if order.cancelled -%}
+      <p class="form-message form-message--error">{{ 'customer.cancelled' | t: date: order.cancelled_at }}</p>
+    {%- endif -%}
+    <table class="table">
+      <thead>
+        <tr><th scope="col">{{ 'customer.product' | t }}</th><th scope="col">{{ 'product.quantity' | t }}</th><th scope="col">{{ 'customer.total' | t }}</th></tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr>
+            <td><a href="{{ line_item.product.url }}">{{ line_item.title }}</a></td>
+            <td>{{ line_item.quantity }}</td>
+            <td>{{ line_item.final_line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+      <tfoot>
+        <tr><th scope="row" colspan="2">{{ 'cart.subtotal' | t }}</th><td>{{ order.line_items_subtotal_price | money }}</td></tr>
+        {%- for shipping_method in order.shipping_methods -%}
+          <tr><th scope="row" colspan="2">{{ shipping_method.title }}</th><td>{{ shipping_method.price | money }}</td></tr>
+        {%- endfor -%}
+        {%- for tax_line in order.tax_lines -%}
+          <tr><th scope="row" colspan="2">{{ tax_line.title }} ({{ tax_line.rate_percentage }} %)</th><td>{{ tax_line.price | money }}</td></tr>
+        {%- endfor -%}
+        <tr><th scope="row" colspan="2">{{ 'customer.total' | t }}</th><td><strong>{{ order.total_price | money }}</strong></td></tr>
+      </tfoot>
+    </table>
+    <div class="account__grid">
+      {%- if order.shipping_address -%}
+        <div><h2 class="h3">{{ 'customer.shipping_address' | t }}</h2><address class="small">{{ order.shipping_address | format_address }}</address></div>
+      {%- endif -%}
+      {%- if order.billing_address -%}
+        <div><h2 class="h3">{{ 'customer.billing_address' | t }}</h2><address class="small">{{ order.billing_address | format_address }}</address></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Commande", "tag": "div", "settings": [] }
+{% endschema %}

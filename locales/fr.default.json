@@ -17,7 +17,10 @@
     "illustrative": "Illustration",
     "price_ttc": "TTC",
     "pause_video": "Mettre la vidéo en pause",
-    "play_video": "Lire la vidéo"
+    "play_video": "Lire la vidéo",
+    "pagination": "Pagination",
+    "pagination_status": "Page {{ current }} sur {{ total }}",
+    "back": "Retour"
   },
   "product": {
     "price": "Prix",
@@ -64,7 +67,9 @@
     "open": "Ouvrir le panier ({{ count }})",
     "view_cart": "Voir le panier",
     "updating": "Mise à jour du panier…",
-    "remove_short": "Retirer"
+    "remove_short": "Retirer",
+    "update": "Mettre à jour",
+    "note": "Instructions pour la commande"
   },
   "compare": {
     "before": "Avant",
@@ -94,7 +99,10 @@
     "password_title": "Ouverture prochaine",
     "password_enter": "Accéder à la boutique",
     "password_label": "Mot de passe",
-    "password_owner": "Vous êtes le propriétaire ?"
+    "password_owner": "Vous êtes le propriétaire ?",
+    "collections_title": "Collections",
+    "password_signup": "Me prévenir",
+    "password_signup_success": "Merci, vous serez prévenu à l’ouverture."
   },
   "customer": {
     "account": "Compte",
@@ -116,7 +124,28 @@
     "password_confirm": "Confirmer le mot de passe",
     "date": "Date",
     "status": "Statut",
-    "total": "Total"
+    "total": "Total",
+    "recover_success": "Si un compte existe pour cette adresse, un e-mail de réinitialisation vient d’être envoyé.",
+    "order_number": "Commande",
+    "details": "Mes informations",
+    "cancelled": "Commande annulée le {{ date }}",
+    "product": "Produit",
+    "shipping_address": "Adresse de livraison",
+    "billing_address": "Adresse de facturation",
+    "default": "Adresse par défaut",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "add_address": "Ajouter une adresse",
+    "company": "Société (facultatif)",
+    "address1": "Adresse",
+    "address2": "Complément d’adresse",
+    "zip": "Code postal",
+    "city": "Ville",
+    "country": "Pays",
+    "phone": "Téléphone",
+    "set_default": "Définir comme adresse par défaut",
+    "save": "Enregistrer",
+    "decline": "Refuser l’invitation"
   },
   "gift_card": {
     "title": "Votre carte cadeau",

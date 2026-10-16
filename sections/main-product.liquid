@@ -1,0 +1,212 @@
+{%- comment -%}
+  Fiche produit : galerie HD avec zoom, informations organisées en blocs déplaçables dans
+  l'éditeur, vrai formulaire Shopify (quantité, panier, paiement accéléré), stock réel,
+  accordéons alimentés par les métachamps produit, barre d'achat fixe sur téléphone.
+  Données structurées Product/Offer générées par Shopify à partir des vraies données.
+  Mode « compact » pour la page d'atterrissage TikTok (produit, prix et bouton immédiatement).
+{%- endcomment -%}
+{{ 'component-product.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+  assign compact = section.settings.compact
+-%}
+<section class="main-product{% if compact %} main-product--compact{% endif %}" data-main-product aria-labelledby="ProductTitle-{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.show_breadcrumbs and compact == false -%}
+      <nav class="breadcrumbs main-product__crumbs" aria-label="{{ 'general.breadcrumbs' | t }}">
+        <ol>
+          <li><a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a></li>
+          <li aria-current="page">{{ product.title }}</li>
+        </ol>
+      </nav>
+    {%- endif -%}
+
+    <div class="main-product__grid">
+      <div class="main-product__gallery">
+        {%- assign gallery_id = 'Gallery-' | append: section.id -%}
+        {% render 'product-gallery', product: product, gallery_id: gallery_id, sizes: '(min-width: 990px) 640px, 100vw' %}
+      </div>
+
+      <div class="product-info main-product__info">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              {% render block %}
+            {%- when 'vendor' -%}
+              <p class="product-info__vendor" {{ block.shopify_attributes }}>{{ product.vendor }}</p>
+            {%- when 'title' -%}
+              <h1 class="product-info__title" id="ProductTitle-{{ section.id }}" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+            {%- when 'price' -%}
+              <div {{ block.shopify_attributes }}>{% render 'price', variant: v %}</div>
+            {%- when 'availability' -%}
+              <div {{ block.shopify_attributes }}>
+                {%- if v.available -%}
+                  <p class="availability">{{ 'product.in_stock' | t }}</p>
+                {%- else -%}
+                  <p class="availability availability--out">{{ 'product.out_of_stock' | t }}</p>
+                {%- endif -%}
+              </div>
+            {%- when 'short_description' -%}
+              {%- assign short = product.metafields.custom.short_description | default: block.settings.text -%}
+              {%- if short != blank -%}<div class="lead main-product__lead rte" {{ block.shopify_attributes }}>{{ short }}</div>{%- endif -%}
+            {%- when 'buy_buttons' -%}
+              <div {{ block.shopify_attributes }}>
+                {% render 'product-form', product: product, form_id: form_id, show_payment_button: block.settings.show_payment_button %}
+              </div>
+            {%- when 'assurance' -%}
+              <ul class="assurances" role="list" {{ block.shopify_attributes }}>
+                {%- if block.settings.text_1 != blank -%}<li>{% render 'icon', name: 'lock' %}<span>{{ block.settings.text_1 }}</span></li>{%- endif -%}
+                {%- if block.settings.text_2 != blank -%}<li>{% render 'icon', name: 'truck' %}<span>{{ block.settings.text_2 }}</span></li>{%- endif -%}
+                {%- if block.settings.text_3 != blank -%}<li>{% render 'icon', name: 'return' %}<span>{{ block.settings.text_3 }}</span></li>{%- endif -%}
+              </ul>
+            {%- when 'text' -%}
+              <div class="small rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- when 'accordion' -%}
+              {%- liquid
+                assign body = blank
+                assign mf = blank
+                assign policy = blank
+                case block.settings.source
+                  when 'description'
+                    assign body = product.description
+                  when 'usage'
+                    assign mf = product.metafields.custom.usage
+                  when 'care'
+                    assign mf = product.metafields.custom.care
+                  when 'delivery'
+                    assign mf = product.metafields.custom.delivery
+                    assign policy = shop.shipping_policy
+                  when 'returns'
+                    assign mf = product.metafields.custom.returns
+                    assign policy = shop.refund_policy
+                endcase
+                if body == blank and mf == blank
+                  assign body = block.settings.fallback
+                endif
+              -%}
+              {%- if body != blank or mf != blank or policy != blank -%}
+                <details class="accordion main-product__accordion" {{ block.shopify_attributes }}{% if block.settings.open %} open{% endif %}>
+                  <summary>{{ block.settings.heading }}</summary>
+                  <div class="accordion__body rte">
+                    {%- if mf != blank -%}{{ mf | metafield_tag }}{%- else -%}{{ body }}{%- endif -%}
+                    {%- if policy != blank -%}<p><a class="link-chevron" href="{{ policy.url }}">{{ policy.title }}</a></p>{%- endif -%}
+                  </div>
+                </details>
+              {%- elsif request.design_mode -%}
+                <p class="small main-product__hint" {{ block.shopify_attributes }}>Éditeur uniquement : « {{ block.settings.heading }} » est masqué tant que le métachamp correspondant (ou le texte de secours) est vide.</p>
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.sticky_bar -%}
+    <div class="sticky-buy" data-sticky-buy="{{ form_id }}" aria-hidden="true">
+      <div class="sticky-buy__info">
+        <span class="sticky-buy__title">{{ section.settings.sticky_title | default: product.title }}</span>
+        {% render 'price', variant: v, class: 'small' %}
+      </div>
+      {%- form 'product', product, class: 'sticky-buy__form', data-product-form: '' -%}
+        <input type="hidden" name="id" value="{{ v.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" name="add" class="button button--small" data-add-button data-price="{{ v.price }}" data-label-template="{{ 'product.sticky_label' | t }}" tabindex="-1"{% unless v.available %} disabled{% endunless %}>
+          <span data-add-label>{% if v.available %}{{ 'product.sticky_label' | t }}{% else %}{{ 'product.sold_out' | t }}{% endif %}</span>
+        </button>
+      {%- endform -%}
+    </div>
+  {%- endif -%}
+</section>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+{%- unless compact -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": {{ 'general.home' | t | json }}, "item": {{ shop.url | append: routes.root_url | json }} },
+        { "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": {{ shop.url | append: product.url | json }} }
+      ]
+    }
+  </script>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Fiche produit",
+  "tag": "div",
+  "class": "section-main-product",
+  "settings": [
+    { "type": "checkbox", "id": "show_breadcrumbs", "label": "Afficher le fil d’Ariane", "default": true },
+    { "type": "checkbox", "id": "sticky_bar", "label": "Barre d’achat fixe sur téléphone", "default": true },
+    { "type": "text", "id": "sticky_title", "label": "Nom dans la barre d’achat", "default": "ACE2ACE" },
+    { "type": "checkbox", "id": "compact", "label": "Mode atterrissage publicitaire (TikTok)", "default": false, "info": "Produit, prix et bouton visibles immédiatement ; pas de fil d’Ariane." }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    { "type": "vendor", "name": "Marque", "limit": 1 },
+    { "type": "title", "name": "Titre", "limit": 1 },
+    { "type": "price", "name": "Prix", "limit": 1 },
+    { "type": "availability", "name": "Disponibilité", "limit": 1 },
+    {
+      "type": "short_description",
+      "name": "Description courte",
+      "limit": 1,
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Texte", "info": "Utilisé si le métachamp « custom.short_description » est vide.", "default": "<p>Rouleau manuel et réutilisable pour retirer les poils de chien et de chat des textiles compatibles. Les poils sont collectés dans un compartiment qui s’ouvre pour se vider.</p>" }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Boutons d’achat",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_payment_button", "label": "Afficher le paiement accéléré", "default": true, "info": "Selon les moyens réellement activés dans Shopify." }
+      ]
+    },
+    {
+      "type": "assurance",
+      "name": "Réassurance",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "text_1", "label": "Paiement", "default": "Paiement sécurisé par Shopify" },
+        { "type": "text", "id": "text_2", "label": "Livraison", "default": "Livraison en France : frais et délais affichés avant le paiement", "info": "Uniquement des engagements réels." },
+        { "type": "text", "id": "text_3", "label": "Retours", "default": "Droit de rétractation de 14 jours" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Texte",
+      "settings": [ { "type": "richtext", "id": "text", "label": "Texte" } ]
+    },
+    {
+      "type": "accordion",
+      "name": "Accordéon",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Titre", "default": "Description" },
+        {
+          "type": "select",
+          "id": "source",
+          "label": "Contenu",
+          "default": "description",
+          "options": [
+            { "value": "description", "label": "Description du produit" },
+            { "value": "usage", "label": "Métachamp custom.usage" },
+            { "value": "care", "label": "Métachamp custom.care" },
+            { "value": "delivery", "label": "Métachamp custom.delivery + politique d’expédition" },
+            { "value": "returns", "label": "Métachamp custom.returns + politique de remboursement" },
+            { "value": "custom", "label": "Texte de secours uniquement" }
+          ]
+        },
+        { "type": "richtext", "id": "fallback", "label": "Texte de secours", "info": "Affiché si le contenu choisi est vide. Uniquement des informations vérifiées." },
+        { "type": "checkbox", "id": "open", "label": "Ouvert par défaut", "default": false }
+      ]
+    }
+  ]
+}
+{% endschema %}
