@@ -1,0 +1,316 @@
+/* Galerie, formulaire d'achat et informations produit (offre de l'accueil, fiche produit, page TikTok). */
+.gallery {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.gallery__track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  border-radius: var(--radius-l);
+  background: var(--color-surface);
+}
+
+.gallery__track::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery__item {
+  scroll-snap-align: center;
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.gallery__item--empty {
+  border-radius: var(--radius-l);
+}
+
+.gallery__item img,
+.gallery__item video,
+.gallery__item iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.gallery__zoom {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.gallery__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gallery__thumbs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.gallery__thumbs button {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.gallery__thumbs button[aria-current='true'] {
+  border-color: var(--color-text);
+}
+
+.gallery__thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 990px) {
+  .gallery__nav {
+    display: none;
+  }
+}
+
+.zoom-dialog {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-surface);
+}
+
+.zoom-dialog::backdrop {
+  background: rgba(var(--color-text-rgb), 0.4);
+}
+
+.zoom-dialog__close {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.zoom-dialog__track {
+  height: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.zoom-dialog__track figure {
+  margin: 0;
+  scroll-snap-align: center;
+  overflow: auto;
+  display: grid;
+  place-items: center;
+}
+
+.zoom-dialog__track img {
+  max-width: none;
+  width: min(1600px, 160vw);
+  height: auto;
+}
+
+@media (min-width: 990px) {
+  .zoom-dialog__track img {
+    width: min(2000px, 140vw);
+  }
+}
+
+/* Formulaire */
+.product-form {
+  display: grid;
+  gap: 14px;
+}
+
+.product-form__row {
+  display: flex;
+  gap: 12px;
+}
+
+.product-form__row .button {
+  flex: 1;
+}
+
+.product-form__status {
+  min-height: 1.2em;
+  font-size: var(--fs-small);
+  color: #a33a2a;
+}
+
+.product-form__status:empty {
+  display: none;
+}
+
+.product-form__payment .shopify-payment-button__button {
+  min-height: 48px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.product-form__payment .shopify-payment-button__more-options {
+  color: var(--color-text-secondary);
+  font-size: var(--fs-small);
+}
+
+/* Informations */
+.product-info {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.product-info__vendor {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.product-info__title {
+  font-size: calc(clamp(2rem, 1.4rem + 2.2vw, 3rem) * var(--heading-scale));
+}
+
+.product-info .price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 1.5rem;
+}
+
+.product-info .price strong {
+  font-weight: 600;
+}
+
+.price__tax {
+  font-size: var(--fs-small);
+  color: var(--color-text-secondary);
+}
+
+.availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
+
+.availability::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #2f8a4c;
+}
+
+.availability--out::before {
+  background: var(--color-muted);
+}
+
+.assurances {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  font-size: var(--fs-small);
+  color: var(--color-text-secondary);
+}
+
+.assurances li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.assurances svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--color-text);
+}
+
+/* Barre d'achat fixe (téléphone) */
+.sticky-buy {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid rgba(var(--color-text-rgb), 0.08);
+  transform: translateY(110%);
+  transition: transform 0.35s var(--ease-out);
+}
+
+.sticky-buy.is-visible {
+  transform: none;
+}
+
+.sticky-buy__info {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.sticky-buy__title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sticky-buy .button {
+  margin-left: auto;
+  flex: none;
+}
+
+@media (min-width: 990px) {
+  .sticky-buy {
+    display: none;
+  }
+}
+
+body:has(.sticky-buy.is-visible) .site-footer {
+  padding-bottom: calc(32px + 72px);
+}

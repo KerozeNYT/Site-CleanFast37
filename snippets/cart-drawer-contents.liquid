@@ -1,0 +1,31 @@
+<div class="cart-drawer__head">
+  <h2 id="CartDrawer-Title">{{ 'cart.title' | t }}</h2>
+  <button type="button" class="icon-button" data-cart-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+</div>
+{%- if cart.item_count == 0 -%}
+  <div class="cart-drawer__body">
+    <div class="cart-empty">
+      <p class="lead">{{ 'cart.empty' | t }}</p>
+      <a class="button" href="{{ routes.all_products_collection_url }}" data-cart-close>{{ 'cart.continue' | t }}</a>
+    </div>
+  </div>
+{%- else -%}
+  <form class="cart-drawer__body" action="{{ routes.cart_url }}" method="post" id="CartDrawer-Form" novalidate>
+    {% render 'cart-items', context: 'drawer' %}
+  </form>
+  <div class="cart-drawer__foot">
+    <div class="cart-subtotal">
+      <span>{{ 'cart.subtotal' | t }}</span>
+      <span data-cart-subtotal>{{ cart.total_price | money }}</span>
+    </div>
+    <p class="small">{{ 'cart.taxes_included' | t }}</p>
+    {%- if settings.cart_note != blank -%}<div class="small rte">{{ settings.cart_note }}</div>{%- endif -%}
+    <p class="cart-status" role="status" aria-live="polite" data-cart-status></p>
+    <button type="submit" form="CartDrawer-Form" name="checkout" class="button button--full">
+      {% render 'icon', name: 'lock' %}{{ 'cart.checkout' | t }}
+    </button>
+    {%- if settings.cart_show_payment_buttons and additional_checkout_buttons -%}
+      <div class="cart-drawer__payment">{{ content_for_additional_checkout_buttons }}</div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

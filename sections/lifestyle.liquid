@@ -1,0 +1,65 @@
+{%- comment -%}
+  Au quotidien : campagne photographique, images pleine largeur alternées avec des textes courts.
+{%- endcomment -%}
+{{ 'section-lifestyle.css' | asset_url | stylesheet_tag }}
+<section class="section lifestyle section--{{ section.settings.background }}" aria-labelledby="Life-{{ section.id }}">
+  <div class="text-width center stack reveal">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="h2" id="Life-{{ section.id }}">{{ section.settings.heading }}</h2>
+  </div>
+  {%- for block in section.blocks -%}
+    <article class="life-row life-row--{{ block.settings.layout }}" {{ block.shopify_attributes }}>
+      <div class="media life-row__media reveal">
+        {%- if block.settings.image != blank -%}
+          {%- if block.settings.layout == 'full' -%}
+            {% render 'responsive-image', image: block.settings.image, sizes: '100vw' %}
+          {%- else -%}
+            {% render 'responsive-image', image: block.settings.image, sizes: '(min-width: 990px) 60vw, 100vw' %}
+          {%- endif -%}
+        {%- else -%}
+          {% render 'media-placeholder', label: block.settings.title, kind: 'lifestyle-2' %}
+        {%- endif -%}
+      </div>
+      <div class="life-row__text stack reveal">
+        {%- if block.settings.place != blank -%}<p class="eyebrow">{{ block.settings.place }}</p>{%- endif -%}
+        <h3 class="h2">{{ block.settings.title }}</h3>
+        {%- if block.settings.text != blank -%}<p class="lead">{{ block.settings.text }}</p>{%- endif -%}
+      </div>
+    </article>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Au quotidien",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Au quotidien" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Là où ils aiment se poser." },
+    { "type": "select", "id": "background", "label": "Fond", "default": "default", "options": [ { "value": "default", "label": "Blanc cassé" }, { "value": "warm", "label": "Beige" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Image et texte",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "place", "label": "Lieu", "default": "Le salon" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Le canapé, net pour les invités." },
+        { "type": "textarea", "id": "text", "label": "Texte" },
+        { "type": "select", "id": "layout", "label": "Mise en page", "default": "full", "options": [ { "value": "full", "label": "Pleine largeur, texte dessous" }, { "value": "left", "label": "Image à gauche" }, { "value": "right", "label": "Image à droite" } ] }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Au quotidien",
+      "blocks": [
+        { "type": "row", "settings": { "place": "Le salon", "title": "Le canapé, prêt pour la soirée.", "text": "Quelques passages avant de recevoir, sans sortir l’aspirateur.", "layout": "full" } },
+        { "type": "row", "settings": { "place": "La voiture", "title": "La banquette, après la balade.", "text": "Sans pile ni branchement : il voyage avec vous.", "layout": "left" } },
+        { "type": "row", "settings": { "place": "Leur coin", "title": "Le panier et les plaids.", "text": "Leur endroit préféré, entretenu en un geste.", "layout": "right" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

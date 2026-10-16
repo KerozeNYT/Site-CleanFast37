@@ -1,0 +1,22 @@
+{
+  "current": "Maison Nette",
+  "presets": {
+    "Maison Nette": {
+      "color_background": "#F8F7F4",
+      "color_surface": "#FFFFFF",
+      "color_text": "#202124",
+      "color_text_secondary": "#6B6C6C",
+      "color_muted": "#747575",
+      "color_warm": "#EDE6DC",
+      "color_accent": "#3565A8",
+      "type_body_font": "inter_n4",
+      "type_heading_font": "inter_n6",
+      "heading_scale": 100,
+      "logo_width": 130,
+      "brand_notice": "<p>ACE2ACE est une marque appartenant à son propriétaire. Maison Nette est une boutique indépendante ; elle n’est ni le site officiel ACE2ACE, ni un distributeur agréé du fabricant.</p>",
+      "cart_type": "drawer",
+      "cart_show_payment_buttons": true,
+      "motion_enabled": true
+    }
+  }
+}

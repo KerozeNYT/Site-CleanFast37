@@ -1,0 +1,22 @@
+{
+  "name": "maison-nette-theme",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Thème Shopify Online Store 2.0 — boutique mono-produit ACE2ACE (nom de travail MAISON NETTE).",
+  "type": "module",
+  "scripts": {
+    "check": "node dev/check.mjs",
+    "preview": "node dev/preview.mjs",
+    "shots": "node dev/screenshots.mjs",
+    "package": "node dev/package.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@shopify/theme-check-node": "^3.30.1",
+    "liquidjs": "^10.30.0",
+    "playwright-core": "^1.64.0"
+  }
+}

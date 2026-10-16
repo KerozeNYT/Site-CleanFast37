@@ -1,0 +1,57 @@
+{%- comment -%}
+  Dernier appel à l'action : photo d'ambiance, phrase de marque et vrai bouton d'ajout au panier
+  affichant le prix réel. Aucune urgence ni réduction inventée.
+{%- endcomment -%}
+{{ 'section-final-cta.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign p = section.settings.product
+  if p == blank
+    assign p = collections.all.products.first
+  endif
+-%}
+<section class="final-cta{% if section.settings.image != blank %} final-cta--media{% endif %}" aria-labelledby="FinalCta-{{ section.id }}">
+  {%- if section.settings.image != blank -%}
+    <div class="final-cta__media" aria-hidden="true">
+      {% render 'responsive-image', image: section.settings.image, sizes: '100vw', alt: '' %}
+    </div>
+  {%- elsif request.design_mode -%}
+    <div class="final-cta__media" aria-hidden="true">
+      {% render 'media-placeholder', label: 'photo d’ambiance : chien ou chat sur un canapé net, lumière douce', kind: 'lifestyle-2' %}
+    </div>
+  {%- endif -%}
+  <div class="text-width center stack final-cta__content reveal">
+    <h2 class="h1" id="FinalCta-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+    {%- if p != blank -%}
+      <div class="final-cta__form">
+        {% render 'product-form', product: p, form_id: 'FinalCtaForm', show_quantity: false, button_label: section.settings.button_label, after_add: section.settings.after_add %}
+      </div>
+      <p class="small final-cta__note">{{ 'cart.taxes_included' | t }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Dernier appel",
+  "tag": "div",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produit" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Gardez leurs câlins. Retirez leurs poils." },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "button_label", "label": "Bouton", "default": "Commander mon ACE2ACE", "info": "Le prix réel du produit est ajouté automatiquement." },
+    {
+      "type": "select",
+      "id": "after_add",
+      "label": "Après l’ajout",
+      "default": "drawer",
+      "options": [
+        { "value": "drawer", "label": "Ouvrir le panier" },
+        { "value": "checkout", "label": "Aller au paiement" }
+      ]
+    },
+    { "type": "image_picker", "id": "image", "label": "Photo d’ambiance", "info": "Photo réelle, 2400 × 1350 px conseillé. Le texte s’affiche en clair sur un voile." }
+  ],
+  "presets": [ { "name": "Dernier appel" } ]
+}
+{% endschema %}

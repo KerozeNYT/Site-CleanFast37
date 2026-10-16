@@ -1,0 +1,27 @@
+{%- comment -%}
+  Image responsive (WebP/AVIF servis automatiquement par le CDN Shopify selon le navigateur).
+  Paramètres :
+    image      objet image (obligatoire)
+    sizes      attribut sizes (défaut 100vw)
+    widths     largeurs générées (défaut '375, 550, 750, 1100, 1500, 1880, 2400')
+    eager      true pour l'image principale (pas de chargement différé, priorité haute)
+    alt        texte alternatif (sinon celui de l'image dans Shopify)
+    class      classe CSS
+{%- endcomment -%}
+{%- liquid
+  assign img_widths = widths | default: '375, 550, 750, 1100, 1500, 1880, 2400'
+  assign img_sizes = sizes | default: '100vw'
+  assign img_alt = alt | default: image.alt | escape
+  if eager
+    assign img_loading = 'eager'
+    assign img_priority = 'high'
+  else
+    assign img_loading = 'lazy'
+    assign img_priority = 'auto'
+  endif
+-%}
+{{
+  image
+  | image_url: width: 2400
+  | image_tag: widths: img_widths, sizes: img_sizes, loading: img_loading, fetchpriority: img_priority, alt: img_alt, class: class
+}}

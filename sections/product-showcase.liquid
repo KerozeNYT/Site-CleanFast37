@@ -1,0 +1,116 @@
+{%- comment -%}
+  Présentation produit premium : une grande photo avec repères techniques (positionnés en %,
+  à caler sur la vraie photo) et une grille de gros plans (fermé, ouvert, compartiment, poignée,
+  en situation). Si un angle manque, l'emplacement l'indique dans l'éditeur : on ne l'invente pas.
+{%- endcomment -%}
+{{ 'section-showcase.css' | asset_url | stylesheet_tag }}
+<section class="section section--{{ section.settings.background }}" id="{{ section.settings.anchor | default: 'details' }}" aria-labelledby="Showcase-{{ section.id }}">
+  <div class="text-width center stack reveal">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="h2" id="Showcase-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+  </div>
+
+  {%- assign callouts = section.blocks | where: 'type', 'callout' -%}
+  <div class="page-width showcase__hero reveal">
+    <div class="media showcase__key" data-callouts>
+      {%- if section.settings.key_image != blank -%}
+        {% render 'responsive-image', image: section.settings.key_image, sizes: '(min-width: 1280px) 1180px, 92vw' %}
+      {%- else -%}
+        {% render 'media-placeholder', label: 'photo nette du rouleau ouvert, fond clair (repères techniques)', kind: 'product-2' %}
+      {%- endif -%}
+      {%- for block in callouts -%}
+        <span class="callout" style="--x: {{ block.settings.x }}%; --y: {{ block.settings.y }}%" {{ block.shopify_attributes }}>
+          <span class="callout__dot" aria-hidden="true">{{ forloop.index }}</span>
+          <span class="callout__label">{{ block.settings.label }}</span>
+        </span>
+      {%- endfor -%}
+    </div>
+    {%- if callouts.size > 0 -%}
+      <ol class="callout-list" role="list">
+        {%- for block in callouts -%}
+          <li><span class="callout__dot" aria-hidden="true">{{ forloop.index }}</span><span><strong>{{ block.settings.label }}</strong>{% if block.settings.detail != blank %} — {{ block.settings.detail }}{% endif %}</span></li>
+        {%- endfor -%}
+      </ol>
+    {%- endif -%}
+  </div>
+
+  {%- assign tiles = section.blocks | where: 'type', 'tile' -%}
+  {%- if tiles.size > 0 -%}
+    <div class="page-width showcase__grid">
+      {%- for block in tiles -%}
+        <figure class="tile tile--{{ block.settings.size }} reveal" style="--delay: {{ forloop.index0 | times: 70 }}ms" {{ block.shopify_attributes }}>
+          <div class="media tile__media">
+            {%- if block.settings.image != blank -%}
+              {%- if block.settings.size == 'wide' -%}
+                {% render 'responsive-image', image: block.settings.image, sizes: '(min-width: 1280px) 1180px, 92vw' %}
+              {%- else -%}
+                {% render 'responsive-image', image: block.settings.image, sizes: '(min-width: 990px) 580px, 92vw', widths: '550, 750, 1100, 1300' %}
+              {%- endif -%}
+            {%- else -%}
+              {% render 'media-placeholder', label: block.settings.title, kind: 'product-3' %}
+            {%- endif -%}
+          </div>
+          <figcaption class="tile__text">
+            <h3 class="h3">{{ block.settings.title }}</h3>
+            {%- if block.settings.text != blank -%}<p class="small">{{ block.settings.text }}</p>{%- endif -%}
+          </figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Présentation produit",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancre", "default": "details" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Regardez de plus près" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Pensé pour un geste simple." },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Un rouleau manuel, une poignée, un compartiment de collecte qui s’ouvre pour se vider." },
+    { "type": "image_picker", "id": "key_image", "label": "Grande photo (repères)", "info": "Photo réelle et nette du rouleau, idéalement ouvert. Placez ensuite les repères en %." },
+    { "type": "select", "id": "background", "label": "Fond", "default": "surface", "options": [ { "value": "default", "label": "Blanc cassé" }, { "value": "surface", "label": "Blanc" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "callout",
+      "name": "Repère technique",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé", "default": "Poignée" },
+        { "type": "text", "id": "detail", "label": "Précision (facultative)", "info": "Uniquement ce qui est documenté par le fabricant." },
+        { "type": "range", "id": "x", "label": "Position horizontale", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "range", "id": "y", "label": "Position verticale", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 }
+      ]
+    },
+    {
+      "type": "tile",
+      "name": "Gros plan",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Produit fermé, vue 3/4" },
+        { "type": "textarea", "id": "text", "label": "Texte" },
+        { "type": "select", "id": "size", "label": "Taille", "default": "half", "options": [ { "value": "half", "label": "Demi-largeur" }, { "value": "wide", "label": "Pleine largeur" } ] }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Présentation produit",
+      "blocks": [
+        { "type": "callout", "settings": { "label": "Poignée", "x": 25, "y": 70 } },
+        { "type": "callout", "settings": { "label": "Rouleau", "x": 62, "y": 40 } },
+        { "type": "callout", "settings": { "label": "Compartiment de collecte", "x": 70, "y": 66 } },
+        { "type": "tile", "settings": { "title": "Fermé, vue trois quarts", "size": "half" } },
+        { "type": "tile", "settings": { "title": "Ouvert", "size": "half" } },
+        { "type": "tile", "settings": { "title": "Le compartiment de collecte", "text": "Les poils récupérés s’y accumulent jusqu’à ce que vous le vidiez.", "size": "wide" } },
+        { "type": "tile", "settings": { "title": "La poignée", "size": "half" } },
+        { "type": "tile", "settings": { "title": "En situation", "size": "half" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

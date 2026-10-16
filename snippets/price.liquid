@@ -1,0 +1,9 @@
+{%- comment -%}
+  Prix TTC d'une variante. Paramètres : variant (obligatoire), class.
+  Aucun prix barré n'est affiché ici : pas de réduction inventée.
+{%- endcomment -%}
+<span class="price {{ class }}" data-price>
+  <span class="visually-hidden">{{ 'product.price' | t }}</span>
+  <strong>{{ variant.price | money }}</strong>
+  <span class="price__tax">{{ 'general.price_ttc' | t }}</span>
+</span>

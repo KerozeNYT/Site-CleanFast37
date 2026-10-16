@@ -1,0 +1,90 @@
+{%- comment -%}
+  Offre commerciale : une seule référence, vrai formulaire Shopify (panier, paiement accéléré),
+  disponibilité réelle. Aucune réduction, aucun prix barré, aucune urgence inventée.
+{%- endcomment -%}
+{{ 'component-product.css' | asset_url | stylesheet_tag }}
+{{ 'section-offer.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign p = section.settings.product
+  if p == blank
+    assign p = collections.all.products.first
+  endif
+  assign v = p.selected_or_first_available_variant
+-%}
+<section class="section section--{{ section.settings.background }}" id="{{ section.settings.anchor | default: 'offre' }}" aria-labelledby="Offer-{{ section.id }}">
+  <div class="page-width offer">
+    <div class="offer__gallery">
+      {% render 'product-gallery', product: p, gallery_id: 'OfferGallery', sizes: '(min-width: 990px) 600px, 92vw' %}
+    </div>
+    <div class="product-info offer__info">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <p class="product-info__vendor">{{ p.vendor }}</p>
+      <h2 class="product-info__title" id="Offer-{{ section.id }}">{{ section.settings.title | default: p.title }}</h2>
+      {% render 'price', variant: v %}
+      {%- if v.available -%}
+        <p class="availability">{{ 'product.in_stock' | t }}</p>
+      {%- else -%}
+        <p class="availability availability--out">{{ 'product.out_of_stock' | t }}</p>
+      {%- endif -%}
+      {%- assign short = p.metafields.custom.short_description | default: section.settings.text -%}
+      {%- if short != blank -%}<div class="lead offer__lead rte">{{ short }}</div>{%- endif -%}
+
+      {% render 'product-form', product: p, form_id: 'OfferForm', show_payment_button: section.settings.show_payment_button %}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="assurances" role="list">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>{% render 'icon', name: block.settings.icon %}<span>{{ block.settings.text }}</span></li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.delivery != blank -%}
+        <div class="small rte offer__delivery">{{ section.settings.delivery }}</div>
+      {%- elsif request.design_mode -%}
+        <p class="small offer__delivery">Éditeur uniquement : ajoutez ici les informations de livraison réellement activées (zones, délais, frais).</p>
+      {%- endif -%}
+
+      <a class="link-chevron" href="{{ p.url }}">{{ section.settings.details_label }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Offre",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancre", "default": "offre" },
+    { "type": "product", "id": "product", "label": "Produit" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Commander" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "ACE2ACE — Rouleau anti-poils réutilisable" },
+    { "type": "richtext", "id": "text", "label": "Description courte", "info": "Utilisée si le métachamp « custom.short_description » du produit est vide.", "default": "<p>Rouleau manuel et réutilisable pour retirer les poils de chien et de chat des textiles compatibles. Les poils sont collectés dans un compartiment qui s’ouvre pour se vider.</p>" },
+    { "type": "checkbox", "id": "show_payment_button", "label": "Afficher le paiement accéléré", "default": true, "info": "Apple Pay, Google Pay, Shop Pay… selon les moyens activés dans Shopify." },
+    { "type": "richtext", "id": "delivery", "label": "Informations de livraison", "info": "Uniquement des informations vérifiées et réellement activées. Laisser vide sinon." },
+    { "type": "text", "id": "details_label", "label": "Lien vers la fiche produit", "default": "Toutes les informations" },
+    { "type": "select", "id": "background", "label": "Fond", "default": "default", "options": [ { "value": "default", "label": "Blanc cassé" }, { "value": "surface", "label": "Blanc" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "assurance",
+      "name": "Réassurance",
+      "limit": 4,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icône", "default": "lock", "options": [ { "value": "lock", "label": "Cadenas" }, { "value": "truck", "label": "Livraison" }, { "value": "return", "label": "Retour" }, { "value": "check", "label": "Coche" } ] },
+        { "type": "text", "id": "text", "label": "Texte", "default": "Paiement sécurisé par Shopify", "info": "Uniquement des engagements réels." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Offre",
+      "blocks": [
+        { "type": "assurance", "settings": { "icon": "lock", "text": "Paiement sécurisé par Shopify" } },
+        { "type": "assurance", "settings": { "icon": "truck", "text": "Livraison en France : frais et délais affichés avant le paiement" } },
+        { "type": "assurance", "settings": { "icon": "return", "text": "Droit de rétractation de 14 jours" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

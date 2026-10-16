@@ -1,0 +1,55 @@
+{%- comment -%}
+  Barre produit collante : nom, ancres, prix et bouton d'achat toujours accessibles,
+  sans monopoliser l'écran. Le bouton mène à l'offre (ou ajoute directement au panier).
+{%- endcomment -%}
+{%- liquid
+  assign p = section.settings.product | default: product
+  if p == blank
+    assign p = collections.all.products.first
+  endif
+-%}
+{%- if p != blank -%}
+  {%- assign v = p.selected_or_first_available_variant -%}
+  <div class="product-subnav" data-subnav>
+    <div class="page-width product-subnav__inner">
+      <span class="product-subnav__title">{{ section.settings.title | default: p.title }}</span>
+      <nav class="product-subnav__links" aria-label="{{ section.settings.title | default: p.title | escape }}">
+        {%- for block in section.blocks -%}
+          <a href="{{ block.settings.anchor }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+        {%- endfor -%}
+      </nav>
+      <div class="product-subnav__buy">
+        <span class="price-tag"><strong>{{ v.price | money }}</strong></span>
+        {%- if v.available -%}
+          <a class="button button--small" href="{{ section.settings.buy_anchor | default: p.url }}">{{ 'product.buy' | t }}</a>
+        {%- else -%}
+          <span class="small">{{ 'product.sold_out' | t }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Barre produit",
+  "tag": "div",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produit" },
+    { "type": "text", "id": "title", "label": "Nom affiché", "default": "ACE2ACE" },
+    { "type": "text", "id": "buy_anchor", "label": "Lien du bouton Acheter", "default": "#offre", "info": "Ancre de la section Offre sur la page, ou laisser vide pour la fiche produit." }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Lien",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé", "default": "Aperçu" },
+        { "type": "text", "id": "anchor", "label": "Ancre ou lien", "default": "#solution" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Barre produit" } ]
+}
+{% endschema %}

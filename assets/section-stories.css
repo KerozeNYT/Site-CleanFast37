@@ -1,0 +1,57 @@
+/* Cartes « situations » : trois colonnes sur ordinateur, défilement horizontal au doigt sur téléphone. */
+.story-rail {
+  list-style: none;
+  margin: clamp(40px, 6vw, 72px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 82%;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  padding-bottom: 8px;
+  scrollbar-width: none;
+  margin-inline: calc(-1 * var(--gutter));
+  padding-inline: var(--gutter);
+}
+
+.story-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.story-card {
+  scroll-snap-align: start;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  transition-delay: var(--delay, 0ms);
+}
+
+.story-card__media {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-l);
+}
+
+.story-card__text {
+  display: grid;
+  gap: 8px;
+  padding-inline: 4px;
+}
+
+@media (min-width: 750px) {
+  .story-rail {
+    grid-auto-columns: 46%;
+  }
+}
+
+@media (min-width: 990px) {
+  .story-rail {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(var(--cols, 3), 1fr);
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+    gap: 24px;
+  }
+}

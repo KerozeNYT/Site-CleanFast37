@@ -1,0 +1,63 @@
+{%- comment -%} Le problème : trois situations réelles, photos naturelles, texte court. {%- endcomment -%}
+{{ 'section-stories.css' | asset_url | stylesheet_tag }}
+<section class="section section--{{ section.settings.background }}" id="probleme" aria-labelledby="Problem-{{ section.id }}">
+  <div class="text-width center stack reveal">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="h2" id="Problem-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+  </div>
+  <div class="page-width">
+    <ul class="story-rail" role="list">
+      {%- for block in section.blocks -%}
+        <li class="story-card reveal" style="--delay: {{ forloop.index0 | times: 90 }}ms" {{ block.shopify_attributes }}>
+          <div class="media story-card__media">
+            {%- if block.settings.image != blank -%}
+              {% render 'responsive-image', image: block.settings.image, sizes: '(min-width: 990px) 400px, 82vw', widths: '400, 600, 800, 1000' %}
+            {%- else -%}
+              {% render 'media-placeholder', label: block.settings.title, kind: 'lifestyle-2' %}
+            {%- endif -%}
+          </div>
+          <div class="story-card__text">
+            <h3 class="h3">{{ block.settings.title }}</h3>
+            {%- if block.settings.text != blank -%}<p class="small">{{ block.settings.text }}</p>{%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Le problème",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Votre canapé mérite mieux qu’une couche de poils." },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Ils montent sur le canapé, voyagent avec vous, dorment dans leur panier. Et les poils restent." },
+    { "type": "select", "id": "background", "label": "Fond", "default": "surface", "options": [ { "value": "default", "label": "Blanc cassé" }, { "value": "surface", "label": "Blanc" }, { "value": "warm", "label": "Beige" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "situation",
+      "name": "Situation",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo (portrait 4:5)", "info": "Photo naturelle et crédible, éclairage réaliste." },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Le canapé" },
+        { "type": "textarea", "id": "text", "label": "Texte" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Le problème",
+      "blocks": [
+        { "type": "situation", "settings": { "title": "Le canapé", "text": "Une couche de poils sur le tissu, juste là où l’on s’installe." } },
+        { "type": "situation", "settings": { "title": "Le siège auto", "text": "Après un trajet avec le chien, la banquette garde la trace du voyage." } },
+        { "type": "situation", "settings": { "title": "Le panier et les coussins", "text": "Leur coin préféré, utilisé chaque jour, se couvre de poils." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

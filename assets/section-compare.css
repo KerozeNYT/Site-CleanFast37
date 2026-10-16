@@ -1,0 +1,141 @@
+.compare-notice {
+  margin-top: 24px;
+  padding: 12px 18px;
+  border: 1px dashed rgba(var(--color-text-rgb), 0.3);
+  border-radius: var(--radius-s);
+}
+
+.compare {
+  margin-top: clamp(32px, 5vw, 56px);
+}
+
+.compare__tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.compare__tabs button {
+  min-height: 40px;
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(var(--color-text-rgb), 0.06);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.compare__tabs button[aria-selected='true'] {
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.compare__figure {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+  text-align: center;
+}
+
+.compare__frame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  background: var(--color-warm);
+  touch-action: pan-y;
+  user-select: none;
+}
+
+@media (max-width: 749px) {
+  .compare__frame {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+.compare__img {
+  position: absolute;
+  inset: 0;
+}
+
+.compare__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.compare__img--after {
+  clip-path: inset(0 0 0 var(--pos));
+}
+
+.compare__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 2px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.compare__handle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23202124' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 7l-5 5 5 5M15 7l5 5-5 5'/%3E%3C/svg%3E")
+    center / 22px no-repeat;
+  box-shadow: var(--shadow-soft);
+  transform: translate(-50%, -50%);
+}
+
+.compare__label {
+  position: absolute;
+  top: 16px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(32, 33, 36, 0.72);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.compare__label--before {
+  left: 16px;
+}
+
+.compare__label--after {
+  right: 16px;
+}
+
+.compare__frame {
+  cursor: ew-resize;
+}
+
+/* Le curseur natif sert au clavier et aux lecteurs d'écran ; le glissement au doigt et à la
+   souris est géré sur tout le cadre (global.js), y compris sur iOS. */
+.compare__range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.compare__frame:has(.compare__range:focus-visible) {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}

@@ -1,0 +1,11 @@
+{%- comment -%}
+  Emplacement de média non encore fourni. Ne simule jamais le produit : affiche un fond neutre
+  et, dans l'éditeur de thème uniquement, le média attendu (liste de prises de vue).
+  Paramètres : label (texte), kind ('image' par défaut, ou 'lifestyle-1', 'product-1'… pour l'illustration Shopify)
+{%- endcomment -%}
+<div class="media-placeholder" aria-hidden="true">
+  {{ kind | default: 'image' | placeholder_svg_tag }}
+  {%- if request.design_mode and label != blank -%}
+    <span>{{ 'general.placeholder_media' | t: label: label }}</span>
+  {%- endif -%}
+</div>

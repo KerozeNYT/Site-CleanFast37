@@ -1,0 +1,178 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.hero__lead {
+  max-width: 34ch;
+}
+
+.hero__price {
+  font-size: 1.0625rem;
+  color: var(--color-text-secondary);
+}
+
+.hero__price strong,
+.hero__price span:first-child {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.hero .actions {
+  margin-top: 8px;
+}
+
+/* Sans média : le produit réel au centre, comme une page de lancement */
+.hero--product {
+  padding-top: clamp(48px, 7vw, 96px);
+  background: var(--color-surface);
+}
+
+.hero__product {
+  margin-top: clamp(32px, 5vw, 64px);
+}
+
+.hero__product-media {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-l) var(--radius-l) 0 0;
+  background: var(--color-bg);
+}
+
+.hero__product-media img {
+  object-fit: contain;
+}
+
+@media (max-width: 749px) {
+  .hero__product-media {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* Avec média : plein écran, texte posé sur l'image */
+.hero--media {
+  min-height: calc(100svh - var(--header-h));
+  display: grid;
+  align-items: end;
+  padding-block: clamp(96px, 14vh, 160px) clamp(56px, 10vh, 112px);
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--color-warm);
+}
+
+.hero__media picture,
+.hero__poster,
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__video {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
+}
+
+.hero__video.is-playing {
+  opacity: 1;
+}
+
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, calc(var(--shade) * 0.4)) 0%, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, var(--shade)) 100%);
+}
+
+.hero--dark .hero__shade {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 30%, rgba(248, 247, 244, calc(var(--shade) * 2)) 100%);
+}
+
+.hero--light .hero__content {
+  color: #fff;
+}
+
+.hero--light .hero__content .lead,
+.hero--light .hero__content .eyebrow,
+.hero--light .hero__price,
+.hero--light .hero__price strong,
+.hero--light .hero__price span:first-child {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.hero--light .link-chevron {
+  color: #fff;
+}
+
+.hero__toggle {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.hero__toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.hero .media-badge {
+  left: auto;
+  right: 72px;
+  bottom: 28px;
+}
+
+/* Léger mouvement au défilement, sans bloquer la page (navigateurs compatibles uniquement) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js:not(.motion-off) .hero--media .hero__media > picture,
+    .js:not(.motion-off) .hero--media .hero__video {
+      animation: hero-drift linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+
+    .js:not(.motion-off) .hero__product-media {
+      animation: hero-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 45%;
+    }
+  }
+}
+
+@keyframes hero-drift {
+  to {
+    transform: scale(1.08) translateY(4%);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    transform: translateY(40px) scale(0.96);
+  }
+  to {
+    transform: none;
+  }
+}

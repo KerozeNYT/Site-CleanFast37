@@ -1,0 +1,130 @@
+.showcase__hero {
+  margin-top: clamp(40px, 6vw, 72px);
+  display: grid;
+  gap: 24px;
+}
+
+.showcase__key {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-l);
+  background: var(--color-bg);
+}
+
+@media (max-width: 749px) {
+  .showcase__key {
+    aspect-ratio: 1;
+  }
+}
+
+.callout {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translate(-14px, -14px);
+}
+
+.callout__dot {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--color-text);
+  color: var(--color-surface);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.7);
+}
+
+.callout__label {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Téléphone : numéros sur la photo, libellés dans la liste dessous */
+@media (max-width: 749px) {
+  .callout__label {
+    display: none;
+  }
+}
+
+.callout-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.callout-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-secondary);
+}
+
+.callout-list strong {
+  color: var(--color-text);
+}
+
+@media (min-width: 750px) {
+  .callout-list {
+    display: none;
+  }
+}
+
+.showcase__grid {
+  margin-top: 24px;
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 750px) {
+  .showcase__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tile--wide {
+    grid-column: 1 / -1;
+  }
+}
+
+.tile {
+  margin: 0;
+  display: grid;
+  gap: 16px;
+  transition-delay: var(--delay, 0ms);
+}
+
+.tile__media {
+  aspect-ratio: 1;
+  border-radius: var(--radius-l);
+  background: var(--color-bg);
+}
+
+.tile--wide .tile__media {
+  aspect-ratio: 21 / 9;
+}
+
+@media (max-width: 749px) {
+  .tile--wide .tile__media {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.tile__text {
+  display: grid;
+  gap: 6px;
+  padding-inline: 4px;
+}

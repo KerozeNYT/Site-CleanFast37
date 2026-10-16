@@ -1,0 +1,79 @@
+{%- comment -%}
+  Fonctionnement : vidéo de démonstration (facultative, lecture à la demande) et trois étapes
+  photographiques. Une vidéo générée n'est qu'une illustration : la mention s'affiche.
+{%- endcomment -%}
+{{ 'section-steps.css' | asset_url | stylesheet_tag }}
+<section class="section section--{{ section.settings.background }}" id="{{ section.settings.anchor | default: 'demonstration' }}" aria-labelledby="Steps-{{ section.id }}">
+  <div class="text-width center stack reveal">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="h2" id="Steps-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+  </div>
+
+  {%- if section.settings.video != blank -%}
+    <div class="page-width steps__video reveal">
+      <div class="media media--rounded steps__video-frame{% if section.settings.vertical %} steps__video-frame--vertical{% endif %}">
+        {{ section.settings.video | video_tag: controls: true, muted: true, playsinline: true, preload: 'none', image_size: '1600x' }}
+        {%- if section.settings.illustrative -%}<span class="media-badge">{{ 'general.illustrative' | t }}</span>{%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <ol class="page-width steps" role="list">
+    {%- for block in section.blocks -%}
+      <li class="step reveal" style="--delay: {{ forloop.index0 | times: 100 }}ms" {{ block.shopify_attributes }}>
+        <div class="media step__media">
+          {%- if block.settings.image != blank -%}
+            {% render 'responsive-image', image: block.settings.image, sizes: '(min-width: 990px) 400px, 92vw', widths: '400, 600, 800, 1000' %}
+          {%- else -%}
+            {% render 'media-placeholder', label: block.settings.title, kind: 'image' %}
+          {%- endif -%}
+        </div>
+        <div class="step__text">
+          <span class="step__num" aria-hidden="true">{{ forloop.index }}</span>
+          <h3 class="h3">{{ block.settings.title }}</h3>
+          <p class="small">{{ block.settings.text }}</p>
+        </div>
+      </li>
+    {%- endfor -%}
+  </ol>
+</section>
+
+{% schema %}
+{
+  "name": "Fonctionnement",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancre", "default": "demonstration" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Fonctionnement" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Trois gestes, c’est tout." },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "video", "id": "video", "label": "Vidéo de démonstration", "info": "Présentation du fonctionnement réel du produit. Lecture à la demande, sans son." },
+    { "type": "checkbox", "id": "vertical", "label": "Vidéo verticale (9:16)", "default": false },
+    { "type": "checkbox", "id": "illustrative", "label": "Afficher la mention « Illustration » sur la vidéo", "default": false, "info": "À cocher pour une vidéo générée ou mise en scène." },
+    { "type": "select", "id": "background", "label": "Fond", "default": "default", "options": [ { "value": "default", "label": "Blanc cassé" }, { "value": "surface", "label": "Blanc" }, { "value": "warm", "label": "Beige" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Étape",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo de l’étape" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Passez le rouleau" },
+        { "type": "textarea", "id": "text", "label": "Texte" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fonctionnement",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Passez le rouleau", "text": "Effectuez des mouvements de va-et-vient sur le textile." } },
+        { "type": "step", "settings": { "title": "Collectez les poils", "text": "Les poils sont récupérés dans le compartiment du rouleau." } },
+        { "type": "step", "settings": { "title": "Ouvrez et videz", "text": "Ouvrez le compartiment et retirez les poils accumulés." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

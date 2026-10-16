@@ -1,0 +1,88 @@
+{%- comment -%}
+  La solution : le rouleau ACE2ACE sur fond épuré. Perspective légère au curseur (ordinateur),
+  petit mouvement au défilement (téléphone). Image : photo réelle du produit (détourée de préférence).
+{%- endcomment -%}
+{{ 'section-solution.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign p = section.settings.product
+  if p == blank
+    assign p = collections.all.products.first
+  endif
+  assign v = p.selected_or_first_available_variant
+  assign img = section.settings.image | default: p.featured_media.preview_image
+-%}
+<section class="section solution section--{{ section.settings.background }}" id="solution" aria-labelledby="Solution-{{ section.id }}">
+  <div class="text-width center stack reveal">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="h1" id="Solution-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<div class="lead rte">{{ section.settings.text }}</div>{%- endif -%}
+  </div>
+
+  <div class="page-width solution__stage" data-tilt>
+    <div class="solution__glow" aria-hidden="true"></div>
+    <div class="media media--contain solution__media" data-tilt-target>
+      {%- if img != blank -%}
+        {% render 'responsive-image', image: img, sizes: '(min-width: 990px) 760px, 90vw', widths: '500, 760, 1000, 1500' %}
+      {%- else -%}
+        {% render 'media-placeholder', label: 'photo du rouleau ACE2ACE blanc, fond épuré (vue 3/4)', kind: 'product-1' %}
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <ul class="page-width solution__points" role="list">
+      {%- for block in section.blocks -%}
+        <li class="reveal" style="--delay: {{ forloop.index0 | times: 80 }}ms" {{ block.shopify_attributes }}>
+          <h3 class="h3">{{ block.settings.title }}</h3>
+          <p class="small">{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- if section.settings.button_label != blank and p != blank -%}
+    <div class="center solution__cta reveal">
+      <div class="actions">
+        <a class="button" href="{{ section.settings.button_link | default: '#offre' }}">{{ section.settings.button_label }} — {{ v.price | money }}</a>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "La solution",
+  "tag": "div",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produit" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "ACE2ACE" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Un geste simple. Un intérieur plus net." },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Passez le rouleau en va-et-vient sur le textile : les poils sont collectés dans son compartiment, que vous ouvrez ensuite pour le vider. <strong>Sans pile, sans branchement, réutilisable.</strong></p>" },
+    { "type": "image_picker", "id": "image", "label": "Image du produit", "info": "Vide : première image de la fiche produit. Idéalement le rouleau détouré sur fond clair." },
+    { "type": "text", "id": "button_label", "label": "Bouton", "default": "Commander" },
+    { "type": "text", "id": "button_link", "label": "Lien du bouton", "default": "#offre" },
+    { "type": "select", "id": "background", "label": "Fond", "default": "default", "options": [ { "value": "default", "label": "Blanc cassé" }, { "value": "surface", "label": "Blanc" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point clé",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Réutilisable" },
+        { "type": "textarea", "id": "text", "label": "Texte" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "La solution",
+      "blocks": [
+        { "type": "point", "settings": { "title": "Manuel", "text": "Aucun branchement électrique ni pile." } },
+        { "type": "point", "settings": { "title": "Compartiment de collecte", "text": "Les poils sont récupérés dans le rouleau." } },
+        { "type": "point", "settings": { "title": "S’ouvre pour se vider", "text": "Ouvrez le compartiment, retirez les poils, recommencez." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

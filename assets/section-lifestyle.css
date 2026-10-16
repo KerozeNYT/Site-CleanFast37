@@ -1,0 +1,59 @@
+.lifestyle {
+  display: grid;
+  gap: clamp(56px, 8vw, 120px);
+}
+
+.life-row {
+  display: grid;
+  gap: 28px;
+}
+
+.life-row__media {
+  aspect-ratio: 4 / 5;
+}
+
+.life-row__text {
+  width: min(100% - 2 * var(--gutter), 640px);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.life-row--full .life-row__media {
+  aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 749px) {
+  .life-row--full .life-row__media {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+@media (min-width: 990px) {
+  .life-row--left,
+  .life-row--right {
+    width: min(100% - 2 * var(--gutter), var(--page-max));
+    margin-inline: auto;
+    grid-template-columns: 7fr 5fr;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .life-row--right {
+    grid-template-columns: 5fr 7fr;
+  }
+
+  .life-row--right .life-row__media {
+    order: 2;
+  }
+
+  .life-row--left .life-row__media,
+  .life-row--right .life-row__media {
+    border-radius: var(--radius-l);
+  }
+
+  .life-row--left .life-row__text,
+  .life-row--right .life-row__text {
+    width: auto;
+    text-align: left;
+  }
+}

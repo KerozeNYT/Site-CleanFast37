@@ -1,0 +1,16 @@
+{
+  "type": "footer",
+  "name": "Pied de page",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "menu-aide": { "type": "menu", "settings": { "menu": "footer" } },
+        "menu-legal": { "type": "menu", "settings": { "menu": "legal" } }
+      },
+      "block_order": ["menu-aide", "menu-legal"],
+      "settings": { "heading": "Maison Nette", "show_payment_icons": true }
+    }
+  },
+  "order": ["footer"]
+}

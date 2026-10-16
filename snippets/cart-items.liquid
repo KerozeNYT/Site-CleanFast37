@@ -1,0 +1,28 @@
+{%- comment -%} Lignes du panier (panier latéral et page panier). Paramètre : context ('drawer' | 'page') {%- endcomment -%}
+{%- for item in cart.items -%}
+  <div class="cart-item" data-line="{{ forloop.index }}" data-key="{{ item.key }}">
+    <a class="cart-item__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+      {%- if item.image -%}
+        {{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '', width: 84, height: 84 }}
+      {%- endif -%}
+    </a>
+    <div class="cart-item__info">
+      <div class="cart-item__top">
+        <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+        <strong>{{ item.final_line_price | money }}</strong>
+      </div>
+      {%- unless item.product.has_only_default_variant -%}
+        <span class="small">{{ item.variant.title }}</span>
+      {%- endunless -%}
+      <span class="small">{{ item.vendor }} · {{ item.final_price | money }} {{ 'general.price_ttc' | t }}</span>
+      <div class="cart-item__actions">
+        {%- capture qty_label -%}{{ 'cart.quantity_for' | t: title: item.product.title }}{%- endcapture -%}
+        {%- assign qty_id = context | append: '-qty-' | append: forloop.index -%}
+        {% render 'quantity-input', id: qty_id, name: 'updates[]', value: item.quantity, min: 0, label: qty_label, small: true %}
+        <button type="button" class="cart-item__remove" data-remove-line="{{ forloop.index }}">
+          <span aria-hidden="true">{{ 'cart.remove_short' | t }}</span><span class="visually-hidden">{{ 'cart.remove' | t: title: item.product.title }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+{%- endfor -%}

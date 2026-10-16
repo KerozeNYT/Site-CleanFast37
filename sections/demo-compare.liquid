@@ -1,0 +1,135 @@
+{%- comment -%}
+  Démonstration avant/après : quatre catégories, curseur au doigt, à la souris et au clavier.
+  Règle : une comparaison n'est publiée que si ses deux photos sont présentes ET marquées
+  « photos réelles vérifiées ». Sans comparaison publiable, la section ne s'affiche pas
+  (elle reste visible dans l'éditeur de thème, avec un rappel).
+{%- endcomment -%}
+{%- liquid
+  assign ready = 0
+  for block in section.blocks
+    if block.settings.before != blank and block.settings.after != blank and block.settings.verified
+      assign ready = ready | plus: 1
+    endif
+  endfor
+-%}
+{%- if ready > 0 or request.design_mode -%}
+  {{ 'section-compare.css' | asset_url | stylesheet_tag }}
+  <section class="section section--surface compare-section" id="{{ section.settings.anchor | default: 'avant-apres' }}" aria-labelledby="Compare-{{ section.id }}">
+    <div class="text-width center stack reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="h2" id="Compare-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    {%- if ready == 0 -%}
+      <p class="text-width center small compare-notice">Éditeur uniquement : cette section reste masquée sur la boutique tant qu’aucune comparaison n’a ses deux photos réelles et la case « photos réelles vérifiées » cochée.</p>
+    {%- endif -%}
+
+    <div class="page-width compare" data-compare-tabs>
+      <div class="compare__tabs" role="tablist" aria-label="{{ 'compare.categories' | t }}">
+        {%- assign n = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign publishable = false
+            if block.settings.before != blank and block.settings.after != blank and block.settings.verified
+              assign publishable = true
+            endif
+          -%}
+          {%- if publishable or request.design_mode -%}
+            <button type="button" role="tab" id="tab-{{ block.id }}" aria-controls="panel-{{ block.id }}" aria-selected="{% if n == 0 %}true{% else %}false{% endif %}"{% if n > 0 %} tabindex="-1"{% endif %} {{ block.shopify_attributes }}>{{ block.settings.category }}</button>
+            {%- assign n = n | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- assign n = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign publishable = false
+          if block.settings.before != blank and block.settings.after != blank and block.settings.verified
+            assign publishable = true
+          endif
+        -%}
+        {%- if publishable or request.design_mode -%}
+          <div class="compare__panel" role="tabpanel" id="panel-{{ block.id }}" aria-labelledby="tab-{{ block.id }}"{% if n > 0 %} hidden{% endif %}>
+            <figure class="compare__figure">
+              <div class="compare__frame" data-compare style="--pos: 50%">
+                <div class="compare__img compare__img--before">
+                  {%- if block.settings.before != blank -%}
+                    {% render 'responsive-image', image: block.settings.before, sizes: '(min-width: 1280px) 1180px, 92vw', alt: block.settings.before_alt %}
+                  {%- else -%}
+                    {% render 'media-placeholder', label: 'photo réelle AVANT', kind: 'image' %}
+                  {%- endif -%}
+                </div>
+                <div class="compare__img compare__img--after">
+                  {%- if block.settings.after != blank -%}
+                    {% render 'responsive-image', image: block.settings.after, sizes: '(min-width: 1280px) 1180px, 92vw', alt: block.settings.after_alt %}
+                  {%- else -%}
+                    {% render 'media-placeholder', label: 'photo réelle APRÈS (même angle)', kind: 'image' %}
+                  {%- endif -%}
+                </div>
+                <span class="compare__handle" aria-hidden="true"></span>
+                <span class="compare__label compare__label--before" aria-hidden="true">{{ 'compare.before' | t }}</span>
+                <span class="compare__label compare__label--after" aria-hidden="true">{{ 'compare.after' | t }}</span>
+                <input
+                  class="compare__range"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  aria-label="{{ 'compare.slider' | t: category: block.settings.category }}"
+                  aria-valuetext="{{ 'compare.value' | t: value: 50 }}"
+                >
+              </div>
+              <figcaption class="small">
+                {{ block.settings.caption }}
+                {%- if block.settings.verified %} {{ 'compare.real_photo' | t }}{% endif -%}
+              </figcaption>
+            </figure>
+          </div>
+          {%- assign n = n | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Démonstration avant/après",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancre", "default": "avant-apres" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Avant / après" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Faites glisser. Comparez." },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Des photos réelles, prises sous le même angle, avant et après quelques passages." }
+  ],
+  "blocks": [
+    {
+      "type": "comparison",
+      "name": "Comparaison",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "category", "label": "Catégorie", "default": "Canapé" },
+        { "type": "image_picker", "id": "before", "label": "Photo AVANT (réelle)" },
+        { "type": "text", "id": "before_alt", "label": "Description de la photo avant" },
+        { "type": "image_picker", "id": "after", "label": "Photo APRÈS (réelle, même angle)" },
+        { "type": "text", "id": "after_alt", "label": "Description de la photo après" },
+        { "type": "text", "id": "caption", "label": "Légende", "info": "Ex. : canapé en tissu, quelques passages. Rester factuel." },
+        { "type": "checkbox", "id": "verified", "label": "Photos réelles vérifiées (même produit, même angle, sans retouche trompeuse)", "default": false, "info": "Obligatoire pour publier. Jamais d’image générée comme preuve d’efficacité." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Démonstration avant/après",
+      "blocks": [
+        { "type": "comparison", "settings": { "category": "Canapé" } },
+        { "type": "comparison", "settings": { "category": "Voiture" } },
+        { "type": "comparison", "settings": { "category": "Tapis compatible" } },
+        { "type": "comparison", "settings": { "category": "Panier pour animaux" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

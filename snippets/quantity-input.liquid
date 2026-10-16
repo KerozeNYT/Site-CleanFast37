@@ -1,0 +1,9 @@
+{%- comment -%} Sélecteur de quantité accessible. Paramètres : id, name, value, min, max, label (déjà traduit), small {%- endcomment -%}
+{%- assign quantity_label = label | default: 'product.quantity' -%}
+{%- if label == blank -%}{%- assign quantity_label = 'product.quantity' | t -%}{%- endif -%}
+<div class="quantity{% if small %} quantity--small{% endif %}" data-quantity>
+  <button type="button" data-quantity-step="-1" aria-label="{{ 'product.decrease' | t }}">−</button>
+  <label class="visually-hidden" for="{{ id }}">{{ quantity_label }}</label>
+  <input id="{{ id }}" type="number" name="{{ name | default: 'quantity' }}" value="{{ value | default: 1 }}" min="{{ min | default: 1 }}"{% if max %} max="{{ max }}"{% endif %} inputmode="numeric">
+  <button type="button" data-quantity-step="1" aria-label="{{ 'product.increase' | t }}">+</button>
+</div>

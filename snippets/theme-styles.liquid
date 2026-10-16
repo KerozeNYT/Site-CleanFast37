@@ -1,0 +1,31 @@
+{%- comment -%}
+  Variables CSS issues des réglages du thème (couleurs, polices). Toute la feuille de style
+  s'appuie sur ces variables : le marchand modifie l'identité sans toucher au code.
+{%- endcomment -%}
+{%- liquid
+  assign body_font_bold = settings.type_body_font | font_modify: 'weight', '600'
+  assign heading_scale = settings.heading_scale | divided_by: 100.0
+-%}
+<style>
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+
+  :root {
+    --color-bg: {{ settings.color_background }};
+    --color-surface: {{ settings.color_surface }};
+    --color-text: {{ settings.color_text }};
+    --color-text-secondary: {{ settings.color_text_secondary }};
+    --color-muted: {{ settings.color_muted }};
+    --color-warm: {{ settings.color_warm }};
+    --color-accent: {{ settings.color_accent }};
+    --color-accent-rgb: {{ settings.color_accent.red }}, {{ settings.color_accent.green }}, {{ settings.color_accent.blue }};
+    --color-text-rgb: {{ settings.color_text.red }}, {{ settings.color_text.green }}, {{ settings.color_text.blue }};
+
+    --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --font-heading: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-heading-weight: {{ settings.type_heading_font.weight }};
+    --heading-scale: {{ heading_scale }};
+  }
+</style>

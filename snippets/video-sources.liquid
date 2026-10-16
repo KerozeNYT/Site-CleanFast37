@@ -1,0 +1,19 @@
+{%- comment -%}
+  Choisit la meilleure source MP4 d'une vidéo Shopify (hauteur maximale `max_height`, défaut 1080)
+  et renvoie son URL. Paramètres : video (objet vidéo), max_height
+{%- endcomment -%}
+{%- liquid
+  assign limit = max_height | default: 1080
+  assign best = ''
+  assign best_h = 0
+  for source in video.sources
+    if source.mime_type == 'video/mp4' and source.height <= limit and source.height > best_h
+      assign best = source.url
+      assign best_h = source.height
+    endif
+  endfor
+  if best == blank
+    assign best = video.sources.first.url
+  endif
+-%}
+{{- best -}}

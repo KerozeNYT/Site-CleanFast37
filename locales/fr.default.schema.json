@@ -1,0 +1,52 @@
+{
+  "settings_schema": {
+    "colors": {
+      "name": "Couleurs",
+      "header": "Palette (peu de couleurs à la fois)",
+      "background": "Fond (blanc cassé)",
+      "surface": "Surface (blanc pur)",
+      "text": "Texte (anthracite)",
+      "text_secondary": "Texte secondaire",
+      "text_secondary_info": "Pour les petits textes : #6B6C6C reste lisible sur le fond (contraste 4,9:1). Le gris doux #747575 est réservé aux grands textes.",
+      "muted": "Gris doux",
+      "warm": "Beige chaleureux",
+      "accent": "Bleu discret (boutons d’achat, liens)"
+    },
+    "typography": {
+      "name": "Typographie",
+      "body": "Police du texte",
+      "heading": "Police des titres",
+      "heading_scale": "Taille des titres"
+    },
+    "brand": {
+      "name": "Marque et identité",
+      "logo": "Logo de la boutique",
+      "logo_width": "Largeur du logo",
+      "favicon": "Icône du site (favicon)",
+      "notice": "Mention sur la marque du produit",
+      "notice_info": "Affichée en pied de page. Ne jamais se présenter comme site officiel ou distributeur agréé sans justificatif."
+    },
+    "cart": {
+      "name": "Panier",
+      "type": "Type de panier",
+      "drawer": "Panier latéral",
+      "page": "Page panier",
+      "payment_buttons": "Afficher les boutons de paiement accéléré dans le panier",
+      "note": "Mention sous le sous-total",
+      "note_info": "Uniquement des informations vérifiées (ex. modalités de livraison réellement activées)."
+    },
+    "motion": {
+      "name": "Animations",
+      "enabled": "Activer les animations légères",
+      "info": "Les animations sont toujours désactivées pour les visiteurs qui ont demandé à réduire les mouvements."
+    },
+    "social": {
+      "name": "Réseaux sociaux"
+    },
+    "seo": {
+      "name": "Partage et référencement",
+      "share_image": "Image de partage par défaut",
+      "share_image_info": "Utilisée quand une page n’a pas d’image propre (1200 × 628 px conseillé)."
+    }
+  }
+}

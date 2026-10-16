@@ -1,0 +1,101 @@
+{%- comment -%}
+  Questions fréquentes en accordéon (HTML natif <details>, accessible sans JavaScript).
+  Les réponses se limitent aux caractéristiques documentées et renvoient aux vraies politiques
+  de la boutique (livraison, retours). Pas de données structurées FAQPage : Google ne les affiche
+  plus pour les boutiques, et le contenu reste indexé normalement.
+{%- endcomment -%}
+<section class="section section--{{ section.settings.background }}" id="{{ section.settings.anchor | default: 'faq' }}" aria-labelledby="Faq-{{ section.id }}">
+  <div class="text-width faq">
+    <div class="stack center reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="h2" id="Faq-{{ section.id }}">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="accordion faq__list reveal">
+      {%- for block in section.blocks -%}
+        <details {{ block.shopify_attributes }}{% if forloop.first and section.settings.open_first %} open{% endif %}>
+          <summary>{{ block.settings.question }}</summary>
+          <div class="accordion__body rte">
+            {{ block.settings.answer }}
+            {%- if block.settings.policy != 'none' -%}
+              {%- liquid
+                case block.settings.policy
+                  when 'shipping'
+                    assign policy = shop.shipping_policy
+                  when 'refund'
+                    assign policy = shop.refund_policy
+                  when 'terms'
+                    assign policy = shop.terms_of_service
+                endcase
+              -%}
+              {%- if policy != blank -%}
+                <p><a class="link-chevron" href="{{ policy.url }}">{{ policy.title }}</a></p>
+              {%- elsif request.design_mode -%}
+                <p class="small">Éditeur uniquement : la politique liée n’est pas encore rédigée (Paramètres › Politiques).</p>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        </details>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.contact_label != blank -%}
+      <p class="center small faq__contact">
+        {{ section.settings.contact_text }}
+        <a href="{{ section.settings.contact_link | default: '/pages/contact' }}">{{ section.settings.contact_label }}</a>
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Questions fréquentes",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancre", "default": "faq" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Questions fréquentes" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Tout ce qu’il faut savoir." },
+    { "type": "checkbox", "id": "open_first", "label": "Ouvrir la première question", "default": false },
+    { "type": "text", "id": "contact_text", "label": "Texte de contact", "default": "Une autre question ?" },
+    { "type": "text", "id": "contact_label", "label": "Lien de contact", "default": "Écrivez-nous" },
+    { "type": "url", "id": "contact_link", "label": "Page de contact" },
+    { "type": "select", "id": "background", "label": "Fond", "default": "surface", "options": [ { "value": "default", "label": "Blanc cassé" }, { "value": "surface", "label": "Blanc" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Comment utiliser le rouleau ?" },
+        { "type": "richtext", "id": "answer", "label": "Réponse", "info": "Uniquement des informations documentées par le fabricant ou réellement appliquées par la boutique." },
+        {
+          "type": "select",
+          "id": "policy",
+          "label": "Lien vers une politique",
+          "default": "none",
+          "options": [
+            { "value": "none", "label": "Aucun" },
+            { "value": "shipping", "label": "Politique d’expédition" },
+            { "value": "refund", "label": "Politique de remboursement" },
+            { "value": "terms", "label": "Conditions générales de vente" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Questions fréquentes",
+      "blocks": [
+        { "type": "question", "settings": { "question": "Comment utiliser le rouleau ?", "answer": "<p>Passez le rouleau en va-et-vient sur le textile. Les poils sont collectés dans son compartiment. Une fois le compartiment rempli, ouvrez-le et videz-le.</p>" } },
+        { "type": "question", "settings": { "question": "Sur quels textiles fonctionne-t-il ?", "answer": "<p>Il s’utilise sur les textiles compatibles indiqués par le fabricant, par exemple un canapé en tissu, un coussin ou un panier pour animaux. Consultez la notice et faites un essai sur une petite zone discrète avant la première utilisation sur un textile délicat.</p>" } },
+        { "type": "question", "settings": { "question": "Peut-il s’utiliser sur les sièges automobiles ?", "answer": "<p>Il peut s’utiliser sur les sièges et banquettes en tissu, dans la limite des textiles compatibles indiqués par le fabricant. Sans pile ni branchement, il peut rester dans la voiture.</p>" } },
+        { "type": "question", "settings": { "question": "Comment vider le compartiment ?", "answer": "<p>Ouvrez le compartiment de collecte, retirez les poils accumulés et jetez-les, puis refermez-le. Le rouleau est prêt à servir de nouveau.</p>" } },
+        { "type": "question", "settings": { "question": "Le rouleau nécessite-t-il des piles ?", "answer": "<p>Non. Le rouleau est entièrement manuel : il ne nécessite ni pile, ni batterie, ni branchement électrique.</p>" } },
+        { "type": "question", "settings": { "question": "Comment entretenir le produit ?", "answer": "<p>Videz le compartiment après chaque utilisation. Pour l’entretien détaillé, suivez la notice fournie par le fabricant avec le produit.</p>" } },
+        { "type": "question", "settings": { "question": "Quels sont les délais de livraison ?", "answer": "<p>Les modes et frais de livraison disponibles pour votre adresse sont affichés avant le paiement. Les délais sont précisés dans notre politique d’expédition.</p>", "policy": "shipping" } },
+        { "type": "question", "settings": { "question": "Comment effectuer un retour ?", "answer": "<p>Vous disposez d’un droit de rétractation de 14 jours à compter de la réception de votre commande. Les conditions et la marche à suivre sont détaillées dans notre politique de retour.</p>", "policy": "refund" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

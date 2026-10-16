@@ -1,0 +1,75 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Maison Nette",
+    "theme_version": "0.1.0",
+    "theme_author": "Maison Nette",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/"
+  },
+  {
+    "name": "t:settings_schema.colors.name",
+    "settings": [
+      { "type": "header", "content": "t:settings_schema.colors.header" },
+      { "type": "color", "id": "color_background", "label": "t:settings_schema.colors.background", "default": "#F8F7F4" },
+      { "type": "color", "id": "color_surface", "label": "t:settings_schema.colors.surface", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_text", "label": "t:settings_schema.colors.text", "default": "#202124" },
+      { "type": "color", "id": "color_text_secondary", "label": "t:settings_schema.colors.text_secondary", "default": "#6B6C6C", "info": "t:settings_schema.colors.text_secondary_info" },
+      { "type": "color", "id": "color_muted", "label": "t:settings_schema.colors.muted", "default": "#747575" },
+      { "type": "color", "id": "color_warm", "label": "t:settings_schema.colors.warm", "default": "#EDE6DC" },
+      { "type": "color", "id": "color_accent", "label": "t:settings_schema.colors.accent", "default": "#3565A8" }
+    ]
+  },
+  {
+    "name": "t:settings_schema.typography.name",
+    "settings": [
+      { "type": "font_picker", "id": "type_body_font", "label": "t:settings_schema.typography.body", "default": "inter_n4" },
+      { "type": "font_picker", "id": "type_heading_font", "label": "t:settings_schema.typography.heading", "default": "inter_n6" },
+      { "type": "range", "id": "heading_scale", "label": "t:settings_schema.typography.heading_scale", "min": 90, "max": 120, "step": 5, "unit": "%", "default": 100 }
+    ]
+  },
+  {
+    "name": "t:settings_schema.brand.name",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "t:settings_schema.brand.logo" },
+      { "type": "range", "id": "logo_width", "label": "t:settings_schema.brand.logo_width", "min": 60, "max": 240, "step": 5, "unit": "px", "default": 130 },
+      { "type": "image_picker", "id": "favicon", "label": "t:settings_schema.brand.favicon" },
+      {
+        "type": "richtext",
+        "id": "brand_notice",
+        "label": "t:settings_schema.brand.notice",
+        "info": "t:settings_schema.brand.notice_info",
+        "default": "<p>ACE2ACE est une marque appartenant à son propriétaire. Maison Nette est une boutique indépendante ; elle n’est ni le site officiel ACE2ACE, ni un distributeur agréé du fabricant.</p>"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.cart.name",
+    "settings": [
+      { "type": "select", "id": "cart_type", "label": "t:settings_schema.cart.type", "default": "drawer", "options": [ { "value": "drawer", "label": "t:settings_schema.cart.drawer" }, { "value": "page", "label": "t:settings_schema.cart.page" } ] },
+      { "type": "checkbox", "id": "cart_show_payment_buttons", "label": "t:settings_schema.cart.payment_buttons", "default": true },
+      { "type": "richtext", "id": "cart_note", "label": "t:settings_schema.cart.note", "info": "t:settings_schema.cart.note_info" }
+    ]
+  },
+  {
+    "name": "t:settings_schema.motion.name",
+    "settings": [
+      { "type": "checkbox", "id": "motion_enabled", "label": "t:settings_schema.motion.enabled", "default": true, "info": "t:settings_schema.motion.info" }
+    ]
+  },
+  {
+    "name": "t:settings_schema.social.name",
+    "settings": [
+      { "type": "text", "id": "social_tiktok", "label": "TikTok", "placeholder": "https://www.tiktok.com/@…" },
+      { "type": "text", "id": "social_instagram", "label": "Instagram", "placeholder": "https://www.instagram.com/…" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook", "placeholder": "https://www.facebook.com/…" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube", "placeholder": "https://www.youtube.com/@…" }
+    ]
+  },
+  {
+    "name": "t:settings_schema.seo.name",
+    "settings": [
+      { "type": "image_picker", "id": "share_image", "label": "t:settings_schema.seo.share_image", "info": "t:settings_schema.seo.share_image_info" }
+    ]
+  }
+]

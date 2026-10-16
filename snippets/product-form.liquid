@@ -1,0 +1,66 @@
+{%- comment -%}
+  Formulaire d'ajout au panier Shopify (vrai panier, vrai paiement).
+  Paramètres :
+    product              produit (obligatoire)
+    form_id              identifiant du formulaire
+    show_payment_button  booléen : paiement accéléré Shopify
+    show_quantity        booléen, défaut vrai
+    button_label         libellé personnalisé (le prix réel est ajouté automatiquement)
+    after_add            'drawer' (défaut : panier latéral) ou 'checkout' (paiement Shopify)
+  Le libellé du bouton affiche le prix réel × la quantité (mis à jour en JavaScript).
+{%- endcomment -%}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign fid = form_id | default: 'product-form'
+  assign price_label = variant.price | money | replace: ' ', ' '
+  if button_label != blank
+    assign label_template = button_label | append: ' — [price]'
+  else
+    assign label_template = 'product.add_to_cart_price' | t: price: '[price]'
+  endif
+-%}
+{%- form 'product', product, id: fid, class: 'product-form', novalidate: 'novalidate', data-product-form: '', data-after-add: after_add -%}
+  {%- if product.has_only_default_variant -%}
+    <input type="hidden" name="id" value="{{ variant.id }}" data-variant-input>
+  {%- else -%}
+    <div class="field product-form__variants">
+      <label for="{{ fid }}-variant">{{ product.options | join: ' / ' }}</label>
+      <select id="{{ fid }}-variant" name="id" data-variant-input>
+        {%- for v in product.variants -%}
+          <option value="{{ v.id }}" data-price="{{ v.price }}" data-available="{{ v.available }}"{% if v == variant %} selected{% endif %}{% unless v.available %} disabled{% endunless %}>
+            {{ v.title }} — {{ v.price | money }}{% unless v.available %} ({{ 'product.sold_out' | t }}){% endunless %}
+          </option>
+        {%- endfor -%}
+      </select>
+    </div>
+  {%- endif -%}
+
+  <div class="product-form__row">
+    {%- unless show_quantity == false -%}
+      {%- assign qty_id = fid | append: '-quantity' -%}
+      {% render 'quantity-input', id: qty_id %}
+    {%- endunless -%}
+    <button
+      type="submit"
+      name="add"
+      class="button button--full product-form__submit"
+      data-add-button
+      data-price="{{ variant.price }}"
+      data-label-template="{{ label_template | escape }}"
+      {% unless variant.available %}disabled{% endunless %}
+    >
+      <span data-add-label>
+        {%- if variant.available -%}
+          {{ label_template | replace: '[price]', price_label }}
+        {%- else -%}
+          {{ 'product.sold_out' | t }}
+        {%- endif -%}
+      </span>
+    </button>
+  </div>
+
+  {%- if show_payment_button -%}
+    <div class="product-form__payment">{{ form | payment_button }}</div>
+  {%- endif -%}
+  <p class="product-form__status" role="status" aria-live="polite" data-form-status></p>
+{%- endform -%}

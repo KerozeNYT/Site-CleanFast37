@@ -1,0 +1,27 @@
+.offer {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 990px) {
+  .offer {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .offer__info {
+    position: sticky;
+    top: calc(var(--header-h) + var(--subnav-h) + 24px);
+  }
+}
+
+.offer__lead {
+  font-size: 1.125rem;
+}
+
+.offer__delivery {
+  padding: 14px 16px;
+  border-radius: var(--radius-s);
+  background: var(--color-surface);
+}

@@ -1,0 +1,428 @@
+{
+  "sections": {
+    "subnav": {
+      "type": "product-subnav",
+      "settings": {
+        "title": "ACE2ACE",
+        "buy_anchor": "#offre"
+      },
+      "blocks": {
+        "link_1": {
+          "type": "link",
+          "settings": {
+            "label": "Aperçu",
+            "anchor": "#solution"
+          }
+        },
+        "link_2": {
+          "type": "link",
+          "settings": {
+            "label": "Avant / après",
+            "anchor": "#avant-apres"
+          }
+        },
+        "link_3": {
+          "type": "link",
+          "settings": {
+            "label": "Fonctionnement",
+            "anchor": "#demonstration"
+          }
+        },
+        "link_4": {
+          "type": "link",
+          "settings": {
+            "label": "Détails",
+            "anchor": "#details"
+          }
+        },
+        "link_5": {
+          "type": "link",
+          "settings": {
+            "label": "FAQ",
+            "anchor": "#faq"
+          }
+        }
+      },
+      "block_order": [
+        "link_1",
+        "link_2",
+        "link_3",
+        "link_4",
+        "link_5"
+      ]
+    },
+    "hero": {
+      "type": "hero-cinematic",
+      "settings": {}
+    },
+    "problem": {
+      "type": "problem",
+      "settings": {},
+      "blocks": {
+        "situation_1": {
+          "type": "situation",
+          "settings": {
+            "title": "Le canapé",
+            "text": "Une couche de poils sur le tissu, juste là où l’on s’installe."
+          }
+        },
+        "situation_2": {
+          "type": "situation",
+          "settings": {
+            "title": "Le siège auto",
+            "text": "Après un trajet avec le chien, la banquette garde la trace du voyage."
+          }
+        },
+        "situation_3": {
+          "type": "situation",
+          "settings": {
+            "title": "Le panier et les coussins",
+            "text": "Leur coin préféré, utilisé chaque jour, se couvre de poils."
+          }
+        }
+      },
+      "block_order": [
+        "situation_1",
+        "situation_2",
+        "situation_3"
+      ]
+    },
+    "solution": {
+      "type": "solution",
+      "settings": {},
+      "blocks": {
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "title": "Manuel",
+            "text": "Aucun branchement électrique ni pile."
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "title": "Compartiment de collecte",
+            "text": "Les poils sont récupérés dans le rouleau."
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "title": "S’ouvre pour se vider",
+            "text": "Ouvrez le compartiment, retirez les poils, recommencez."
+          }
+        }
+      },
+      "block_order": [
+        "point_1",
+        "point_2",
+        "point_3"
+      ]
+    },
+    "compare": {
+      "type": "demo-compare",
+      "settings": {},
+      "blocks": {
+        "comparison_1": {
+          "type": "comparison",
+          "settings": {
+            "category": "Canapé"
+          }
+        },
+        "comparison_2": {
+          "type": "comparison",
+          "settings": {
+            "category": "Voiture"
+          }
+        },
+        "comparison_3": {
+          "type": "comparison",
+          "settings": {
+            "category": "Tapis compatible"
+          }
+        },
+        "comparison_4": {
+          "type": "comparison",
+          "settings": {
+            "category": "Panier pour animaux"
+          }
+        }
+      },
+      "block_order": [
+        "comparison_1",
+        "comparison_2",
+        "comparison_3",
+        "comparison_4"
+      ]
+    },
+    "steps": {
+      "type": "how-it-works",
+      "settings": {},
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Passez le rouleau",
+            "text": "Effectuez des mouvements de va-et-vient sur le textile."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Collectez les poils",
+            "text": "Les poils sont récupérés dans le compartiment du rouleau."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Ouvrez et videz",
+            "text": "Ouvrez le compartiment et retirez les poils accumulés."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ]
+    },
+    "showcase": {
+      "type": "product-showcase",
+      "settings": {},
+      "blocks": {
+        "callout_1": {
+          "type": "callout",
+          "settings": {
+            "label": "Poignée",
+            "x": 25,
+            "y": 70
+          }
+        },
+        "callout_2": {
+          "type": "callout",
+          "settings": {
+            "label": "Rouleau",
+            "x": 62,
+            "y": 40
+          }
+        },
+        "callout_3": {
+          "type": "callout",
+          "settings": {
+            "label": "Compartiment de collecte",
+            "x": 70,
+            "y": 66
+          }
+        },
+        "tile_4": {
+          "type": "tile",
+          "settings": {
+            "title": "Fermé, vue trois quarts",
+            "size": "half"
+          }
+        },
+        "tile_5": {
+          "type": "tile",
+          "settings": {
+            "title": "Ouvert",
+            "size": "half"
+          }
+        },
+        "tile_6": {
+          "type": "tile",
+          "settings": {
+            "title": "Le compartiment de collecte",
+            "text": "Les poils récupérés s’y accumulent jusqu’à ce que vous le vidiez.",
+            "size": "wide"
+          }
+        },
+        "tile_7": {
+          "type": "tile",
+          "settings": {
+            "title": "La poignée",
+            "size": "half"
+          }
+        },
+        "tile_8": {
+          "type": "tile",
+          "settings": {
+            "title": "En situation",
+            "size": "half"
+          }
+        }
+      },
+      "block_order": [
+        "callout_1",
+        "callout_2",
+        "callout_3",
+        "tile_4",
+        "tile_5",
+        "tile_6",
+        "tile_7",
+        "tile_8"
+      ]
+    },
+    "lifestyle": {
+      "type": "lifestyle",
+      "settings": {},
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "place": "Le salon",
+            "title": "Le canapé, prêt pour la soirée.",
+            "text": "Quelques passages avant de recevoir, sans sortir l’aspirateur.",
+            "layout": "full"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "place": "La voiture",
+            "title": "La banquette, après la balade.",
+            "text": "Sans pile ni branchement : il voyage avec vous.",
+            "layout": "left"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "place": "Leur coin",
+            "title": "Le panier et les plaids.",
+            "text": "Leur endroit préféré, entretenu en un geste.",
+            "layout": "right"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3"
+      ]
+    },
+    "offer": {
+      "type": "offer",
+      "settings": {},
+      "blocks": {
+        "assurance_1": {
+          "type": "assurance",
+          "settings": {
+            "icon": "lock",
+            "text": "Paiement sécurisé par Shopify"
+          }
+        },
+        "assurance_2": {
+          "type": "assurance",
+          "settings": {
+            "icon": "truck",
+            "text": "Livraison en France : frais et délais affichés avant le paiement"
+          }
+        },
+        "assurance_3": {
+          "type": "assurance",
+          "settings": {
+            "icon": "return",
+            "text": "Droit de rétractation de 14 jours"
+          }
+        }
+      },
+      "block_order": [
+        "assurance_1",
+        "assurance_2",
+        "assurance_3"
+      ]
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {},
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "Comment utiliser le rouleau ?",
+            "answer": "<p>Passez le rouleau en va-et-vient sur le textile. Les poils sont collectés dans son compartiment. Une fois le compartiment rempli, ouvrez-le et videz-le.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Sur quels textiles fonctionne-t-il ?",
+            "answer": "<p>Il s’utilise sur les textiles compatibles indiqués par le fabricant, par exemple un canapé en tissu, un coussin ou un panier pour animaux. Consultez la notice et faites un essai sur une petite zone discrète avant la première utilisation sur un textile délicat.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Peut-il s’utiliser sur les sièges automobiles ?",
+            "answer": "<p>Il peut s’utiliser sur les sièges et banquettes en tissu, dans la limite des textiles compatibles indiqués par le fabricant. Sans pile ni branchement, il peut rester dans la voiture.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Comment vider le compartiment ?",
+            "answer": "<p>Ouvrez le compartiment de collecte, retirez les poils accumulés et jetez-les, puis refermez-le. Le rouleau est prêt à servir de nouveau.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "Le rouleau nécessite-t-il des piles ?",
+            "answer": "<p>Non. Le rouleau est entièrement manuel : il ne nécessite ni pile, ni batterie, ni branchement électrique.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "Comment entretenir le produit ?",
+            "answer": "<p>Videz le compartiment après chaque utilisation. Pour l’entretien détaillé, suivez la notice fournie par le fabricant avec le produit.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>Les modes et frais de livraison disponibles pour votre adresse sont affichés avant le paiement. Les délais sont précisés dans notre politique d’expédition.</p>",
+            "policy": "shipping"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "Comment effectuer un retour ?",
+            "answer": "<p>Vous disposez d’un droit de rétractation de 14 jours à compter de la réception de votre commande. Les conditions et la marche à suivre sont détaillées dans notre politique de retour.</p>",
+            "policy": "refund"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8"
+      ]
+    },
+    "final": {
+      "type": "final-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "subnav",
+    "hero",
+    "problem",
+    "solution",
+    "compare",
+    "steps",
+    "showcase",
+    "lifestyle",
+    "offer",
+    "faq",
+    "final"
+  ]
+}

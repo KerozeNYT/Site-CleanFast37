@@ -1,0 +1,46 @@
+{%- comment -%} En-tête fin et translucide : logo, menu principal, panier. {%- endcomment -%}
+<header class="site-header" data-header>
+  <div class="page-width site-header__inner">
+    <button type="button" class="icon-button menu-toggle" aria-expanded="false" aria-controls="MobileNav" data-menu-toggle>
+      <span class="visually-hidden">{{ 'general.menu' | t }}</span>
+      {% render 'icon', name: 'menu' %}
+    </button>
+    <a class="site-header__logo" href="{{ routes.root_url }}">
+      {%- if settings.logo != blank -%}
+        {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio | round -%}
+        {{ settings.logo | image_url: width: 480 | image_tag: width: settings.logo_width, height: logo_height, alt: shop.name, loading: 'eager', widths: '120, 240, 360, 480', sizes: '240px' }}
+      {%- else -%}
+        {{ section.settings.wordmark | default: shop.name }}
+      {%- endif -%}
+    </a>
+    <nav class="site-header__nav" aria-label="{{ 'general.menu' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+    <div class="site-header__tools">
+      <a class="icon-button" href="{{ routes.cart_url }}" data-cart-open aria-label="{{ 'cart.open' | t: count: cart.item_count }}">
+        {% render 'icon', name: 'cart' %}
+        <span id="cart-icon-bubble">{%- render 'cart-bubble' -%}</span>
+      </a>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="MobileNav" hidden aria-label="{{ 'general.menu' | t }}">
+    <ul>
+      {%- for link in section.settings.menu.links -%}
+        <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "class": "section-header",
+  "settings": [
+    { "type": "text", "id": "wordmark", "label": "Nom affiché sans logo", "default": "Maison Nette", "info": "Nom de travail provisoire : à remplacer après vérification de sa disponibilité (marque, domaine)." },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

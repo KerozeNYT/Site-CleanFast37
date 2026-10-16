@@ -1,0 +1,8 @@
+{
+  "type": "header",
+  "name": "En-tête",
+  "sections": {
+    "header": { "type": "header", "settings": { "wordmark": "Maison Nette", "menu": "main-menu" } }
+  },
+  "order": ["header"]
+}
