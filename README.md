@@ -48,6 +48,7 @@ npm run check            # Theme Check (règles officielles Shopify)
 npm run preview          # aperçu local : http://localhost:4173 (données fictives, aucune photo)
 npm run preview -- --design   # même aperçu avec les indications de l'éditeur de thème
 npm run shots            # captures téléphone et ordinateur (aperçu lancé au préalable)
+npm run export           # pages HTML autonomes de l'aperçu (.cache/apercu), panier simulé
 ```
 
 L'aperçu local rend les vrais fichiers Liquid avec liquidjs et simule le panier Ajax ; il sert à vérifier la mise en page. Seule une boutique Shopify fait foi (`shopify theme dev`).

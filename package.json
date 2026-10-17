@@ -8,7 +8,8 @@
     "check": "node dev/check.mjs",
     "preview": "node dev/preview.mjs",
     "shots": "node dev/screenshots.mjs",
-    "package": "node dev/package.mjs"
+    "package": "node dev/package.mjs",
+    "export": "node dev/export-preview.mjs"
   },
   "engines": {
     "node": ">=20"
